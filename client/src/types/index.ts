@@ -14,10 +14,10 @@ export enum Status {
 }
 
 export enum TabType {
-  Board = "Board",
-  List = "List",
+  Board = "Quadro",
+  List = "Lista",
   Timeline = "Timeline",
-  Table = "Table",
+  Table = "Tabela",
 }
 
 export interface Project {

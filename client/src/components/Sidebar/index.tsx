@@ -118,20 +118,24 @@ const Sidebar = () => {
           <>
             <SidebarLink
               icon={AlertCircle}
-              label="Urgent"
+              label="Urgente"
               href="/priority/urgent"
             />
             <SidebarLink
               icon={ShieldAlert}
-              label="High"
+              label="Alta"
               href="/priority/high"
             />
             <SidebarLink
               icon={AlertTriangle}
-              label="Medium"
+              label="Média"
               href="/priority/medium"
             />
-            <SidebarLink icon={AlertOctagon} label="Low" href="/priority/low" />
+            <SidebarLink
+              icon={AlertOctagon}
+              label="Baixa"
+              href="/priority/low"
+            />
             <SidebarLink
               icon={Layers3}
               label="Backlog"

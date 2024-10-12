@@ -19,6 +19,9 @@ const Project = ({ params }: ProjectProps) => {
   return (
     <div>
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
+      {activeTab === TabType.Board && (
+        <BoardView id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+      )}
     </div>
   );
 };

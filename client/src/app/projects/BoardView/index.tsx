@@ -137,11 +137,11 @@ const Task = ({ task }: TaskProps) => {
   const taskTagsSplit = task.tags ? task.tags.split(",") : [];
 
   const formattedStartDate = task.startDate
-    ? format(new Date(task.startDate), "P")
+    ? format(new Date(task.startDate), "dd/MM/yyyy")
     : "";
 
   const formattedDueDate = task.dueDate
-    ? format(new Date(task.dueDate), "P")
+    ? format(new Date(task.dueDate), "dd/MM/yyyy")
     : "";
 
   const numberOfComments = (task.comments && task.comments.length) || 0;

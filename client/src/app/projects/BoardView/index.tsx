@@ -1,11 +1,20 @@
 import { useGetTasksQuery, useUpdateTaskStatusMutation } from "@/state/api";
 import { Task as TaskType } from "@/types";
-import { EllipsisVertical, MessageSquareMore, Plus } from "lucide-react";
+import { EllipsisVertical, MessageSquareMore, Plus, X } from "lucide-react";
 import { format } from "date-fns";
-import React from "react";
+import React, { useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Image from "next/image";
+import { priorityTranslations, statusTranslations } from "@/lib/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
+import EmptyTasks from "@/components/EmptyTasks";
 
 type BoardProps = {
   id: string;
@@ -43,6 +52,9 @@ const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
           />
         ))}
       </div>
+      {!tasks?.length && (
+        <EmptyTasks setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+      )}
     </DndProvider>
   );
 };
@@ -91,7 +103,7 @@ const TaskColumn = ({
         />
         <div className="flex w-full items-center justify-between rounded-e-lg bg-white px-5 py-4 dark:bg-dark-secondary">
           <h3 className="flex items-center text-lg font-semibold dark:text-white">
-            {status}
+            {statusTranslations[status]}
             <span
               className="ml-2 inline-block rounded-full bg-gray-200 p-1 text-center text-sm leading-none dark:bg-dark-tertiary"
               style={{ width: "1.5rem", height: "1.5rem" }}
@@ -126,6 +138,7 @@ type TaskProps = {
 };
 
 const Task = ({ task }: TaskProps) => {
+  const [isModalCommentsOpen, setIsModalCommentsOpen] = useState(false);
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: { id: task.id },
@@ -160,7 +173,7 @@ const Task = ({ task }: TaskProps) => {
                 : "bg-gray-200 text-gray-700"
       }`}
     >
-      {priority}
+      {priorityTranslations[priority || "Backlog"]}
     </div>
   );
 
@@ -242,14 +255,46 @@ const Task = ({ task }: TaskProps) => {
             )}
           </div>
 
-          <div className="flex items-center text-gray-500 dark:text-neutral-500">
+          <button
+            className={`flex items-center rounded p-1 text-gray-500 ${numberOfComments !== 0 && "hover:bg-gray-100 dark:text-neutral-500 dark:hover:bg-gray-700"}`}
+            onClick={() => setIsModalCommentsOpen(true)}
+            disabled={numberOfComments === 0}
+          >
             <MessageSquareMore size={20} />
             <span className="ml-1 text-sm dark:text-neutral-400">
               {numberOfComments}
             </span>
-          </div>
+          </button>
         </div>
       </div>
+      {task.comments && task.comments.length > 0 && (
+        <Dialog
+          open={isModalCommentsOpen}
+          onClose={() => setIsModalCommentsOpen(false)}
+        >
+          <DialogTitle>Comentários</DialogTitle>
+          <IconButton
+            aria-label="close"
+            onClick={() => setIsModalCommentsOpen(false)}
+            sx={(theme) => ({
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: theme.palette.grey[500],
+            })}
+          >
+            <X size={18} />
+          </IconButton>
+          <DialogContent dividers>
+            <DialogContentText className="flex space-x-3">
+              <MessageSquareMore size={20} />
+              {task.comments.map((comment) => (
+                <span key={comment.id}>{comment.text}</span>
+              ))}
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 };

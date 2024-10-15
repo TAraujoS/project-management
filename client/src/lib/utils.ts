@@ -30,3 +30,18 @@ export const dataGridSxStyles = (isDarkMode: boolean) => {
     },
   };
 };
+
+export const statusTranslations: any = {
+  "To Do": "A Fazer",
+  "Work In Progress": "Em Progresso",
+  "Under Review": "Em Revisão",
+  Completed: "Concluído",
+};
+
+export const priorityTranslations: any = {
+  Low: "Baixa",
+  Medium: "Média",
+  High: "Alta",
+  Urgent: "Urgente",
+  Backlog: "Backlog",
+};

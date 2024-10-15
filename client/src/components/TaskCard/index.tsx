@@ -1,3 +1,4 @@
+import { priorityTranslations, statusTranslations } from "@/lib/utils";
 import { Task } from "@/types";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -11,7 +12,7 @@ const TaskCard = ({ task }: TaskCardProps) => {
     <div className="mb-3 rounded bg-white p-4 shadow dark:bg-dark-secondary dark:text-white">
       {task.attachments && task.attachments.length > 0 && (
         <div>
-          <strong>Attachments:</strong>
+          <strong>Anexos:</strong>
           <div className="flex flex-wrap">
             {task.attachments && task.attachments.length > 0 && (
               <Image
@@ -36,10 +37,11 @@ const TaskCard = ({ task }: TaskCardProps) => {
         <strong>Descrição:</strong> {task.description || "Sem descrição"}
       </p>
       <p>
-        <strong>Status:</strong> {task.status}
+        <strong>Status:</strong> {statusTranslations[task.status || "-"]}
       </p>
       <p>
-        <strong>Prioridade:</strong> {task.priority}
+        <strong>Prioridade:</strong>{" "}
+        {priorityTranslations[task.priority || "-"]}
       </p>
       <p>
         <strong>Tags:</strong> {task.tags || "Sem tags"}

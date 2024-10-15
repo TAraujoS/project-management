@@ -1,4 +1,5 @@
 import { useAppSelector } from "@/app/redux";
+import EmptyTasks from "@/components/EmptyTasks";
 import { useGetTasksQuery } from "@/state/api";
 import { DisplayOption, Gantt, ViewMode } from "gantt-task-react";
 import "gantt-task-react/dist/index.css";
@@ -68,28 +69,36 @@ const TimeLineView = ({ id, setIsModalNewTaskOpen }: TimelineProps) => {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-md bg-white shadow dark:bg-dark-secondary dark:text-white">
-        <div className="timeline">
-          <Gantt
-            tasks={ganttTasks}
-            {...displayOptions}
-            columnWidth={displayOptions.viewMode === ViewMode.Month ? 150 : 100}
-            listCellWidth="100px"
-            barBackgroundColor={isDarkMode ? "#101214" : "#aeb8c2"}
-            barBackgroundSelectedColor={isDarkMode ? "#000" : "#9ba1a6"}
-            locale="pt-BR"
-          />
-        </div>
+      {tasks && tasks?.length > 0 ? (
+        <>
+          <div className="overflow-hidden rounded-md bg-white shadow dark:bg-dark-secondary dark:text-white">
+            <div className="timeline">
+              <Gantt
+                tasks={ganttTasks}
+                {...displayOptions}
+                columnWidth={
+                  displayOptions.viewMode === ViewMode.Month ? 150 : 100
+                }
+                listCellWidth="100px"
+                barBackgroundColor={isDarkMode ? "#101214" : "#aeb8c2"}
+                barBackgroundSelectedColor={isDarkMode ? "#000" : "#9ba1a6"}
+                locale="pt-BR"
+              />
+            </div>
 
-        <div className="px-4 pb-5 pt-1">
-          <button
-            className="flex items-center rounded bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
-            onClick={() => setIsModalNewTaskOpen(true)}
-          >
-            Adicionar Nova Tarefa
-          </button>
-        </div>
-      </div>
+            <div className="px-4 pb-5 pt-1">
+              <button
+                className="flex items-center rounded bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
+                onClick={() => setIsModalNewTaskOpen(true)}
+              >
+                Adicionar Nova Tarefa
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <EmptyTasks setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+      )}
     </div>
   );
 };

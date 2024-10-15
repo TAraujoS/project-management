@@ -28,7 +28,7 @@ const ProjectHeader = ({ activeTab, setActiveTab }: ProjectHeaderProps) => {
       />
       <div className="pb-6 pt-6 lg:pb-4 lg:pt-8">
         <Header
-          name="Product Design Development"
+          name="Desenvolvimento de Produto"
           buttonComponent={
             <button
               className="flex items-center rounded-md bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
@@ -49,12 +49,6 @@ const ProjectHeader = ({ activeTab, setActiveTab }: ProjectHeaderProps) => {
             activeTab={activeTab}
           />
           <TabButton
-            name={TabType.List}
-            icon={<List className="h-5 w-5" />}
-            setActiveTab={setActiveTab}
-            activeTab={activeTab}
-          />
-          <TabButton
             name={TabType.Timeline}
             icon={<Clock className="h-5 w-5" />}
             setActiveTab={setActiveTab}
@@ -63,6 +57,12 @@ const ProjectHeader = ({ activeTab, setActiveTab }: ProjectHeaderProps) => {
           <TabButton
             name={TabType.Table}
             icon={<Table className="h-5 w-5" />}
+            setActiveTab={setActiveTab}
+            activeTab={activeTab}
+          />
+          <TabButton
+            name={TabType.List}
+            icon={<List className="h-5 w-5" />}
             setActiveTab={setActiveTab}
             activeTab={activeTab}
           />

@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
 import { useGetTasksQuery } from "@/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { format } from "date-fns";
 import { PlusSquare } from "lucide-react";
 import React from "react";
 
@@ -21,6 +22,7 @@ const columns: GridColDef[] = [
     field: "description",
     headerName: "Descrição",
     width: 200,
+    renderCell: (params) => params.value || "-",
   },
   {
     field: "status",
@@ -41,28 +43,31 @@ const columns: GridColDef[] = [
     field: "tags",
     headerName: "Tags",
     width: 130,
+    renderCell: (params) => params.value || "-",
   },
   {
     field: "startDate",
     headerName: "Data de Início",
     width: 130,
+    renderCell: (params) => format(new Date(params.value), "dd/MM/yyyy"),
   },
   {
     field: "dueDate",
     headerName: "Data de Término",
     width: 130,
+    renderCell: (params) => format(new Date(params.value), "dd/MM/yyyy"),
   },
   {
     field: "autor",
     headerName: "Autor",
     width: 150,
-    renderCell: (params) => params.value.username || "Desconhecido",
+    renderCell: (params) => params.value?.author || "Desconhecido",
   },
   {
     field: "assignee",
     headerName: "Responsável",
     width: 150,
-    renderCell: (params) => params.value.username || "Sem Responsável",
+    renderCell: (params) => params.value?.assignee || "Sem Responsável",
   },
 ];
 const TableView = ({ id, setIsModalNewTaskOpen }: TableProps) => {

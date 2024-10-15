@@ -52,6 +52,12 @@ export interface Comment {
   userId: number;
 }
 
+export interface SearchResults {
+  tasks?: Task[];
+  projects?: Project[];
+  users?: User[];
+}
+
 export interface Task {
   id: number;
   title: string;

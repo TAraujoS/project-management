@@ -1,10 +1,10 @@
-import { Project, SearchResults, Task, User } from "@/types";
+import { Project, SearchResults, Task, Team, User } from "@/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   reducerPath: "api",
-  tagTypes: ["Projects", "Tasks", "Users"],
+  tagTypes: ["Projects", "Tasks", "Users", "Teams"],
   // Define tipos de tags que serão usados para cache e invalidação de dados. Cada "tag" agrupa dados relacionados para facilitar a atualização automática do cache.
   endpoints: (build) => ({
     getProjects: build.query<Project[], void>({
@@ -27,6 +27,13 @@ export const api = createApi({
         result
           ? result.map(({ id }) => ({ type: "Tasks" as const, id })) // Se houver um resultado, ele mapeia cada task retornada, associando a cada uma uma tag do tipo "Tasks" com o ID específico da task. Isso permite que o cache de cada task seja invalidado individualmente.
           : [{ type: "Tasks" as const }], // Se não houver resultado (nenhuma task), ainda retorna uma tag "Tasks" genérica, garantindo que o cache possa ser invalidado de forma segura mesmo sem tasks específicas.
+    }),
+    getTasksByUser: build.query<Task[], number>({
+      query: (userId) => `tasks/user/${userId}`,
+      providesTags: (result, error, userId) =>
+        result
+          ? result.map(({ id }) => ({ type: "Tasks", id }))
+          : [{ type: "Tasks", id: userId }],
     }),
     createTask: build.mutation<Task, Partial<Task>>({
       query: (task) => ({
@@ -51,6 +58,10 @@ export const api = createApi({
       query: () => "users",
       providesTags: ["Users"],
     }),
+    getTeams: build.query<Team[], void>({
+      query: () => "teams",
+      providesTags: ["Teams"],
+    }),
     search: build.query<SearchResults, string>({
       query: (query) => `search?query=${query}`,
     }),
@@ -65,4 +76,6 @@ export const {
   useUpdateTaskStatusMutation,
   useSearchQuery,
   useGetUsersQuery,
+  useGetTeamsQuery,
+  useGetTasksByUserQuery,
 } = api;

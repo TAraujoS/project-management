@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetUsersQuery } from "@/state/api";
+import { useGetTeamsQuery } from "@/state/api";
 import React from "react";
 import { useAppSelector } from "../redux";
 import Header from "@/components/Header";
@@ -11,7 +11,6 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton,
 } from "@mui/x-data-grid";
-import Image from "next/image";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
 
 const CustomToolbar = () => (
@@ -22,45 +21,32 @@ const CustomToolbar = () => (
 );
 
 const columns: GridColDef[] = [
-  { field: "userId", headerName: "ID", width: 100 },
-  { field: "username", headerName: "Username", width: 150 },
-  { field: "email", headerName: "Email", width: 150 },
+  { field: "id", headerName: "Team ID", width: 100 },
+  { field: "teamName", headerName: "Nome", width: 200 },
+  { field: "productOwnerUsername", headerName: "Product Owner", width: 200 },
   {
-    field: "profilePictureUrl",
-    headerName: "Foto Perfil",
-    width: 100,
-    renderCell: (params) => (
-      <div className="flex h-full w-full items-center justify-center">
-        <div className="h-9 w-9">
-          <Image
-            src={`/${params.value}`}
-            alt={params.row.username}
-            width={100}
-            height={50}
-            className="h-full rounded-full object-cover"
-          />
-        </div>
-      </div>
-    ),
+    field: "projectManagerUsername",
+    headerName: "Project Manager",
+    width: 200,
   },
 ];
 
-const Users = () => {
-  const { data: users, isError, isLoading } = useGetUsersQuery();
+const Teams = () => {
+  const { data: teams, isError, isLoading } = useGetTeamsQuery();
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
   if (isLoading) return <div>Loading...</div>;
-  if (isError || !users)
-    return <div>An Error ocurred while fetching users</div>;
+  if (isError || !teams)
+    return <div>An Error ocurred while fetching teams</div>;
 
   return (
     <div className="flex w-full flex-col p-8">
-      <Header name="Usuários" />
+      <Header name="Teams" />
       <div style={{ height: 650, width: "100%" }}>
         <DataGrid
-          rows={users || []}
+          rows={teams || []}
           columns={columns}
-          getRowId={(row) => row.userId}
+          getRowId={(row) => row.id}
           pagination
           slots={{
             toolbar: CustomToolbar,
@@ -73,4 +59,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Teams;

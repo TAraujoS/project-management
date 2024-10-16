@@ -1,6 +1,11 @@
 import { useAppSelector } from "@/app/redux";
 import Header from "@/components/Header";
-import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import {
+  dataGridClassNames,
+  dataGridSxStyles,
+  priorityTranslations,
+  statusTranslations,
+} from "@/lib/utils";
 import { useGetTasksQuery } from "@/state/api";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { format } from "date-fns";
@@ -30,7 +35,7 @@ const columns: GridColDef[] = [
     width: 130,
     renderCell: (params) => (
       <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-        {params.value}
+        {statusTranslations[params.value]}
       </span>
     ),
   },
@@ -38,6 +43,7 @@ const columns: GridColDef[] = [
     field: "priority",
     headerName: "Prioridade",
     width: 75,
+    renderCell: (params) => priorityTranslations[params.value],
   },
   {
     field: "tags",
@@ -61,7 +67,7 @@ const columns: GridColDef[] = [
     field: "autor",
     headerName: "Autor",
     width: 150,
-    renderCell: (params) => params.value?.author || "Desconhecido",
+    renderCell: (params) => params.value?.author || "Nenhum",
   },
   {
     field: "assignee",

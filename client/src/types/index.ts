@@ -58,6 +58,13 @@ export interface SearchResults {
   users?: User[];
 }
 
+export interface Team {
+  teamId: number;
+  teamName: string;
+  productOwnerUserId?: number;
+  projectManagerUserId?: number;
+}
+
 export interface Task {
   id: number;
   title: string;

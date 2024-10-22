@@ -10,7 +10,7 @@ import {
   priorityTranslations,
   statusTranslations,
 } from "@/lib/utils";
-import { useGetTasksByUserQuery } from "@/state/api";
+import { useGetAuthUserQuery, useGetTasksByUserQuery } from "@/state/api";
 import { Priority, Task } from "@/types";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { format } from "date-fns";
@@ -81,7 +81,9 @@ const columns: GridColDef[] = [
 const ReusablePriorityPage = ({ priority }: PriorityProps) => {
   const [view, setView] = useState("list");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
-  const userId = 1;
+
+  const { data: currentUser } = useGetAuthUserQuery({});
+  const userId = currentUser?.userDetails?.userId ?? null;
   const {
     data: tasks,
     isLoading,

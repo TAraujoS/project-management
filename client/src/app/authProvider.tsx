@@ -41,7 +41,7 @@ const formFields = {
     confirm_password: {
       order: 4,
       placeholder: "Confirme sua senha",
-      label: "Password",
+      label: "Confirm Password",
       inputProps: { type: "password", required: true },
     },
   },
@@ -64,7 +64,7 @@ const formFields = {
 const AuthProvider = ({ children }: any) => {
   return (
     <div className="mon-h-screen flex h-full w-full items-center justify-center gap-1 bg-white">
-      <div className="flex min-h-screen w-full flex-col justify-center gap-10 pb-14">
+      <div className="flex min-h-screen w-3/5 flex-col justify-center gap-10 pb-14">
         <div className="-mt-12">
           <Image
             src="https://pm-s3-th-images.s3.us-east-1.amazonaws.com/logo.png"
@@ -73,7 +73,7 @@ const AuthProvider = ({ children }: any) => {
             height={150}
             className="mx-auto"
           />
-          <h1 className="mx-12 text-center text-2xl font-semibold text-gray-900">
+          <h1 className="mx-auto w-2/3 text-center text-2xl font-semibold text-cyan-800">
             <strong>
               Faça com que todos trabalhem em uma única plataforma
             </strong>{" "}
@@ -93,7 +93,7 @@ const AuthProvider = ({ children }: any) => {
         </Authenticator>
       </div>
 
-      <div className="sticky top-0 flex h-screen w-full items-center justify-center bg-cyan-700 max-lg:hidden">
+      <div className="sticky top-0 flex h-screen w-2/5 items-center justify-center bg-cyan-700 max-lg:hidden">
         <iframe
           width={500}
           height={500}

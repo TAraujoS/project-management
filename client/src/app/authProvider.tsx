@@ -67,7 +67,7 @@ const AuthProvider = ({ children }: any) => {
       <div className="flex min-h-screen w-full flex-col justify-center gap-10 pb-14">
         <div className="-mt-12">
           <Image
-            src="/logo.png"
+            src="https://pm-s3-th-images.s3.us-east-1.amazonaws.com/logo.png"
             alt="Logo"
             width={150}
             height={150}

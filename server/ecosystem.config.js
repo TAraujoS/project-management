@@ -1,4 +1,4 @@
-modeule.exports = {
+module.exports = {
   apps: [
     {
       name: "project-management",

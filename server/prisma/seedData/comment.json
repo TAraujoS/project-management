@@ -1,151 +1,151 @@
 [
   {
     "id": 1,
-    "text": "We need to update this design to include new specifications.",
+    "text": "Precisamos atualizar este design para incluir novas especificações.",
     "taskId": 1,
     "userId": 2
   },
   {
     "id": 2,
-    "text": "Can we meet to discuss the navigation algorithm updates?",
+    "text": "Podemos nos reunir para discutir as atualizações do algoritmo de navegação?",
     "taskId": 2,
     "userId": 4
   },
   {
     "id": 3,
-    "text": "This energy solution looks promising, but needs more research.",
+    "text": "Esta solução de energia parece promissora, mas precisa de mais pesquisa.",
     "taskId": 3,
     "userId": 6
   },
   {
     "id": 4,
-    "text": "Let's revise the software development workflow to include agile methodologies.",
+    "text": "Vamos revisar o fluxo de trabalho de desenvolvimento de software para incluir metodologias ágeis.",
     "taskId": 4,
     "userId": 8
   },
   {
     "id": 5,
-    "text": "We should consider newer AI models for better accuracy.",
+    "text": "Deveríamos considerar modelos de IA mais novos para melhorar a precisão.",
     "taskId": 5,
     "userId": 10
   },
   {
     "id": 6,
-    "text": "Product testing needs to be more rigorous.",
+    "text": "Os testes de produto precisam ser mais rigorosos.",
     "taskId": 6,
     "userId": 12
   },
   {
     "id": 7,
-    "text": "Optimization algorithms are not yet efficient.",
+    "text": "Os algoritmos de otimização ainda não são eficientes.",
     "taskId": 7,
     "userId": 14
   },
   {
     "id": 8,
-    "text": "Database overhaul could impact current operations negatively.",
+    "text": "A reformulação do banco de dados pode impactar negativamente as operações atuais.",
     "taskId": 8,
     "userId": 16
   },
   {
     "id": 9,
-    "text": "Infrastructure upgrades must be done during low traffic hours.",
+    "text": "As atualizações da infraestrutura devem ser feitas durante horas de tráfego baixo.",
     "taskId": 9,
     "userId": 18
   },
   {
     "id": 10,
-    "text": "Security measures need to be enhanced to prevent data breaches.",
+    "text": "As medidas de segurança precisam ser aprimoradas para evitar violações de dados.",
     "taskId": 10,
     "userId": 20
   },
   {
     "id": 11,
-    "text": "Consider using more robust training datasets for AI.",
+    "text": "Considere usar conjuntos de dados de treinamento mais robustos para a IA.",
     "taskId": 11,
     "userId": 1
   },
   {
     "id": 12,
-    "text": "Server security update meeting scheduled for next week.",
+    "text": "Reunião sobre atualização de segurança do servidor agendada para a próxima semana.",
     "taskId": 12,
     "userId": 2
   },
   {
     "id": 13,
-    "text": "UX redesign has been well received in initial user tests.",
+    "text": "O redesign de UX foi bem recebido nos testes iniciais com usuários.",
     "taskId": 13,
     "userId": 3
   },
   {
     "id": 14,
-    "text": "Data analytics implementation needs to account for real-time processing delays.",
+    "text": "A implementação de análise de dados precisa considerar atrasos no processamento em tempo real.",
     "taskId": 14,
     "userId": 4
   },
   {
     "id": 15,
-    "text": "Encryption project needs to align with international security standards.",
+    "text": "O projeto de criptografia precisa estar alinhado com os padrões internacionais de segurança.",
     "taskId": 15,
     "userId": 5
   },
   {
     "id": 16,
-    "text": "Review cloud storage optimization strategies in Q3 meeting.",
+    "text": "Revisar estratégias de otimização de armazenamento na nuvem na reunião do terceiro trimestre.",
     "taskId": 16,
     "userId": 6
   },
   {
     "id": 17,
-    "text": "Hardware compatibility tests to include newer device models.",
+    "text": "Os testes de compatibilidade de hardware devem incluir modelos de dispositivos mais recentes.",
     "taskId": 17,
     "userId": 7
   },
   {
     "id": 18,
-    "text": "Visualization tools to support both 2D and 3D data representations.",
+    "text": "As ferramentas de visualização devem suportar representações de dados em 2D e 3D.",
     "taskId": 18,
     "userId": 8
   },
   {
     "id": 19,
-    "text": "IoT device prototypes to undergo extensive field testing.",
+    "text": "Os protótipos de dispositivos IoT devem passar por testes de campo extensivos.",
     "taskId": 19,
     "userId": 9
   },
   {
     "id": 20,
-    "text": "Legacy system upgrade to start with backend databases.",
+    "text": "A atualização do sistema legado começará pelos bancos de dados do backend.",
     "taskId": 20,
     "userId": 10
   },
   {
     "id": 21,
-    "text": "Network security framework should prioritize threat detection improvements.",
+    "text": "A estrutura de segurança de rede deve priorizar melhorias na detecção de ameaças.",
     "taskId": 21,
     "userId": 1
   },
   {
     "id": 22,
-    "text": "Application deployment strategies to include Docker integration.",
+    "text": "As estratégias de implantação de aplicativos devem incluir integração com Docker.",
     "taskId": 22,
     "userId": 2
   },
   {
     "id": 23,
-    "text": "Market analysis should cover competitive product landscapes.",
+    "text": "A análise de mercado deve cobrir os produtos concorrentes.",
     "taskId": 23,
     "userId": 3
   },
   {
     "id": 24,
-    "text": "Feedback mechanisms to utilize adaptive questioning techniques.",
+    "text": "Os mecanismos de feedback devem utilizar técnicas adaptativas de questionamento.",
     "taskId": 24,
     "userId": 4
   },
   {
     "id": 25,
-    "text": "API integration must ensure data privacy compliance.",
+    "text": "A integração da API deve garantir conformidade com as políticas de privacidade de dados.",
     "taskId": 25,
     "userId": 5
   }

@@ -50,6 +50,13 @@ export const api = createApi({
       invalidatesTags: ["Projects"],
       // Serve para invalidar o cache das tags especificadas. Ao criar um novo projeto, o cache de "Projects" é invalidado, forçando a atualização da lista de projetos.
     }),
+    deleteProject: build.mutation<void, number>({
+      query: (projectId) => ({
+        url: `projects/${projectId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Projects"],
+    }),
     getTasks: build.query<Task[], { projectId: number }>({
       query: ({ projectId }) => `tasks?projectId=${projectId}`,
       providesTags: (result) =>
@@ -83,6 +90,15 @@ export const api = createApi({
       ],
       // Invalida o cache especificamente da task com o ID fornecido. Isso força a atualização dessa task no cache, garantindo que, após a mudança de status, a interface tenha os dados mais recentes.
     }),
+    deleteTask: build.mutation<void, { taskId: number }>({
+      query: ({ taskId }) => ({
+        url: `tasks/${taskId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, { taskId }) => [
+        { type: "Tasks", id: taskId },
+      ],
+    }),
     getUsers: build.query<User[], void>({
       query: () => "users",
       providesTags: ["Users"],
@@ -108,4 +124,6 @@ export const {
   useGetTeamsQuery,
   useGetTasksByUserQuery,
   useGetAuthUserQuery,
+  useDeleteProjectMutation,
+  useDeleteTaskMutation,
 } = api;

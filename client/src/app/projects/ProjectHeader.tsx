@@ -7,10 +7,14 @@ import {
   PlusSquare,
   Share2,
   Table,
+  Trash2,
 } from "lucide-react";
 import React, { useState } from "react";
 import ModalNewProject from "./ModalNewProject";
 import { TabType } from "@/types";
+import ModalDelete from "./ModalDelete";
+import { useDeleteProjectMutation } from "@/state/api";
+import { useParams } from "next/navigation";
 
 type ProjectHeaderProps = {
   activeTab: string;
@@ -18,7 +22,11 @@ type ProjectHeaderProps = {
 };
 
 const ProjectHeader = ({ activeTab, setActiveTab }: ProjectHeaderProps) => {
+  const params = useParams();
+  const [deleteProject] = useDeleteProjectMutation();
   const [isModalNewProjectOpen, setIsModalNewProjectOpen] = useState(false);
+  const [isModalDeleteProjectOpen, setIsModalDeleteProjectOpen] =
+    useState(false);
 
   return (
     <div className="px-4 xl:px-6">
@@ -26,16 +34,33 @@ const ProjectHeader = ({ activeTab, setActiveTab }: ProjectHeaderProps) => {
         isOpen={isModalNewProjectOpen}
         onClose={() => setIsModalNewProjectOpen(false)}
       />
+      <ModalDelete
+        isOpen={isModalDeleteProjectOpen}
+        onClose={() => setIsModalDeleteProjectOpen(false)}
+        name="Excluir Projeto"
+        onDelete={() => {
+          deleteProject(Number(params.id));
+          setIsModalDeleteProjectOpen(false);
+        }}
+      />
       <div className="pb-6 pt-6 lg:pb-4 lg:pt-8">
         <Header
           name="Desenvolvimento de Produto"
           buttonComponent={
-            <button
-              className="flex items-center rounded-md bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
-              onClick={() => setIsModalNewProjectOpen(true)}
-            >
-              <PlusSquare className="mr-2 h-5 w-5" /> Novo Projeto
-            </button>
+            <div className="flex gap-3">
+              <button
+                className="flex items-center rounded-md bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
+                onClick={() => setIsModalNewProjectOpen(true)}
+              >
+                <PlusSquare className="mr-2 h-5 w-5" /> Novo Projeto
+              </button>
+              <button
+                className="flex items-center rounded-md bg-red-400 px-3 py-2 text-white hover:bg-red-600"
+                onClick={() => setIsModalDeleteProjectOpen(true)}
+              >
+                <Trash2 className="h-5 w-5" />
+              </button>
+            </div>
           }
         />
       </div>

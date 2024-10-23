@@ -1,6 +1,16 @@
-import { useGetTasksQuery, useUpdateTaskStatusMutation } from "@/state/api";
+import {
+  useDeleteTaskMutation,
+  useGetTasksQuery,
+  useUpdateTaskStatusMutation,
+} from "@/state/api";
 import { Task as TaskType } from "@/types";
-import { EllipsisVertical, MessageSquareMore, Plus, X } from "lucide-react";
+import {
+  EllipsisVertical,
+  MessageSquareMore,
+  Plus,
+  TrashIcon,
+  X,
+} from "lucide-react";
 import { format } from "date-fns";
 import React, { useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
@@ -13,8 +23,12 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import EmptyTasks from "@/components/EmptyTasks";
+
+import ModalDelete from "../ModalDelete";
 
 type BoardProps = {
   id: string;
@@ -139,6 +153,11 @@ type TaskProps = {
 
 const Task = ({ task }: TaskProps) => {
   const [isModalCommentsOpen, setIsModalCommentsOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isTaskMenuOpen, setIsTaskMenuOpen] = useState(false);
+  const [isModalDeleteTaskOpen, setIsModalDeleteTaskOpen] = useState(false);
+  const [deleteTask] = useDeleteTaskMutation();
+
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: { id: task.id },
@@ -178,124 +197,163 @@ const Task = ({ task }: TaskProps) => {
   );
 
   return (
-    <div
-      ref={(instance) => {
-        drag(instance);
-      }}
-      className={`mb-4 rounded-md bg-white shadow dark:bg-dark-secondary ${isDragging ? "opacity-50" : ""}`}
-    >
-      {task.attachments && task.attachments.length > 0 && (
-        <Image
-          src={`https://pm-s3-th-images.s3.us-east-1.amazonaws.com/${task.attachments[0].fileURL}`}
-          alt={task.attachments[0].fileName}
-          width={400}
-          height={200}
-          className="h-auto w-full rounded-t-md"
-        />
-      )}
-      <div className="p-4 md:p-6">
-        <div className="flex items-start justify-between">
-          <div className="flex flex-1 flex-wrap items-center gap-2">
-            {task.priority && <PriorityTag priority={task.priority} />}
-            <div className="flex gap-2">
-              {taskTagsSplit.map((tag) => (
-                <div
-                  key={tag}
-                  className="rounded-full bg-blue-100 px-2 py-1 text-xs"
-                >
-                  {tag}
-                </div>
-              ))}
+    <>
+      <ModalDelete
+        isOpen={isModalDeleteTaskOpen}
+        onClose={() => setIsModalDeleteTaskOpen(false)}
+        name="Excluir Task"
+        onDelete={() => {
+          console.log("deleting task", task.id);
+          deleteTask({ taskId: Number(task.id) });
+          setIsModalDeleteTaskOpen(false);
+        }}
+        isProject={false}
+      />
+
+      <div
+        ref={(instance) => {
+          drag(instance);
+        }}
+        className={`mb-4 rounded-md bg-white shadow dark:bg-dark-secondary ${isDragging ? "opacity-50" : ""}`}
+      >
+        {task.attachments && task.attachments.length > 0 && (
+          <Image
+            src={`https://pm-s3-th-images.s3.us-east-1.amazonaws.com/${task.attachments[0].fileURL}`}
+            alt={task.attachments[0].fileName}
+            width={400}
+            height={200}
+            className="h-auto w-full rounded-t-md"
+          />
+        )}
+        <div className="p-4 md:p-6">
+          <div className="flex items-start justify-between">
+            <div className="flex flex-1 flex-wrap items-center gap-2">
+              {task.priority && <PriorityTag priority={task.priority} />}
+              <div className="flex gap-2">
+                {taskTagsSplit.map((tag) => (
+                  <div
+                    key={tag}
+                    className="rounded-full bg-blue-100 px-2 py-1 text-xs"
+                  >
+                    {tag}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-          <button className="flex h-6 w-4 flex-shrink-0 items-center justify-center dark:text-neutral-500">
-            <EllipsisVertical size={26} />
-          </button>
-        </div>
-
-        <div className="my-3 flex justify-between">
-          <h4 className="text-md font-bold dark:text-white">{task.title}</h4>
-          {typeof task.points === "number" && (
-            <div className="text-xs font-semibold dark:text-white">
-              {task.points} pts
-            </div>
-          )}
-        </div>
-
-        <div className="text-xs text-gray-500 dark:text-neutral-500">
-          {formattedStartDate && <span>{formattedStartDate}</span>}
-          {formattedDueDate && <span> - {formattedDueDate}</span>}
-        </div>
-        <p className="text-sm text-gray-600 dark:text-neutral-500">
-          {task.description}
-        </p>
-        <div className="mt-4 border-t border-gray-200 dark:border-stroke-dark" />
-
-        <div className="mt-3 flex items-center justify-between">
-          <div className="flex -space-x-[6px] overflow-hidden">
-            {task.assignee && (
-              <Image
-                key={task.assignee.userId}
-                src={`https://pm-s3-th-images.s3.us-east-1.amazonaws.com/${task.assignee.profilePictureUrl!}`}
-                alt={task.assignee.username}
-                width={30}
-                height={30}
-                className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"
-              />
-            )}
-            {task.author && (
-              <Image
-                key={task.author.userId}
-                src={`https://pm-s3-th-images.s3.us-east-1.amazonaws.com/${task.author.profilePictureUrl!}`}
-                alt={task.author.username}
-                width={30}
-                height={30}
-                className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"
-              />
-            )}
+            <button
+              onClick={(event) => {
+                setAnchorEl(event.currentTarget);
+                setIsTaskMenuOpen(!isTaskMenuOpen);
+              }}
+              className="flex h-6 w-4 flex-shrink-0 items-center justify-center dark:text-neutral-500"
+            >
+              <EllipsisVertical size={26} />
+            </button>
+            <Menu
+              id="basic-menu"
+              open={isTaskMenuOpen}
+              anchorEl={anchorEl}
+              onClose={() => setIsTaskMenuOpen(false)}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <MenuItem
+                onClick={() => {
+                  setIsTaskMenuOpen(false);
+                  setIsModalDeleteTaskOpen(true);
+                }}
+                className="flex items-center gap-2"
+              >
+                <TrashIcon height={15} width={15} /> Delete
+              </MenuItem>
+            </Menu>
           </div>
 
-          <button
-            className={`flex items-center rounded p-1 text-gray-500 ${numberOfComments !== 0 && "hover:bg-gray-100 dark:text-neutral-500 dark:hover:bg-gray-700"}`}
-            onClick={() => setIsModalCommentsOpen(true)}
-            disabled={numberOfComments === 0}
-          >
-            <MessageSquareMore size={20} />
-            <span className="ml-1 text-sm dark:text-neutral-400">
-              {numberOfComments}
-            </span>
-          </button>
-        </div>
-      </div>
-      {task.comments && task.comments.length > 0 && (
-        <Dialog
-          open={isModalCommentsOpen}
-          onClose={() => setIsModalCommentsOpen(false)}
-        >
-          <DialogTitle>Comentários</DialogTitle>
-          <IconButton
-            aria-label="close"
-            onClick={() => setIsModalCommentsOpen(false)}
-            sx={(theme) => ({
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: theme.palette.grey[500],
-            })}
-          >
-            <X size={18} />
-          </IconButton>
-          <DialogContent dividers>
-            <DialogContentText className="flex space-x-3">
+          <div className="my-3 flex justify-between">
+            <h4 className="text-md font-bold dark:text-white">{task.title}</h4>
+            {typeof task.points === "number" && (
+              <div className="text-xs font-semibold dark:text-white">
+                {task.points} pts
+              </div>
+            )}
+          </div>
+
+          <div className="text-xs text-gray-500 dark:text-neutral-500">
+            {formattedStartDate && <span>{formattedStartDate}</span>}
+            {formattedDueDate && <span> - {formattedDueDate}</span>}
+          </div>
+          <p className="text-sm text-gray-600 dark:text-neutral-500">
+            {task.description}
+          </p>
+          <div className="mt-4 border-t border-gray-200 dark:border-stroke-dark" />
+
+          <div className="mt-3 flex items-center justify-between">
+            <div className="flex -space-x-[6px] overflow-hidden">
+              {task.assignee && (
+                <Image
+                  key={task.assignee.userId}
+                  src={`https://pm-s3-th-images.s3.us-east-1.amazonaws.com/${task.assignee.profilePictureUrl!}`}
+                  alt={task.assignee.username}
+                  width={30}
+                  height={30}
+                  className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"
+                />
+              )}
+              {task.author && (
+                <Image
+                  key={task.author.userId}
+                  src={`https://pm-s3-th-images.s3.us-east-1.amazonaws.com/${task.author.profilePictureUrl!}`}
+                  alt={task.author.username}
+                  width={30}
+                  height={30}
+                  className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"
+                />
+              )}
+            </div>
+
+            <button
+              className={`flex items-center rounded p-1 text-gray-500 ${numberOfComments !== 0 && "hover:bg-gray-100 dark:text-neutral-500 dark:hover:bg-gray-700"}`}
+              onClick={() => setIsModalCommentsOpen(true)}
+              disabled={numberOfComments === 0}
+            >
               <MessageSquareMore size={20} />
-              {task.comments.map((comment) => (
-                <span key={comment.id}>{comment.text}</span>
-              ))}
-            </DialogContentText>
-          </DialogContent>
-        </Dialog>
-      )}
-    </div>
+              <span className="ml-1 text-sm dark:text-neutral-400">
+                {numberOfComments}
+              </span>
+            </button>
+          </div>
+        </div>
+        {task.comments && task.comments.length > 0 && (
+          <Dialog
+            open={isModalCommentsOpen}
+            onClose={() => setIsModalCommentsOpen(false)}
+          >
+            <DialogTitle>Comentários</DialogTitle>
+            <IconButton
+              aria-label="close"
+              onClick={() => setIsModalCommentsOpen(false)}
+              sx={(theme) => ({
+                position: "absolute",
+                right: 8,
+                top: 8,
+                color: theme.palette.grey[500],
+              })}
+            >
+              <X size={18} />
+            </IconButton>
+            <DialogContent dividers>
+              <DialogContentText className="flex space-x-3">
+                <MessageSquareMore size={20} />
+                {task.comments.map((comment) => (
+                  <span key={comment.id}>{comment.text}</span>
+                ))}
+              </DialogContentText>
+            </DialogContent>
+          </Dialog>
+        )}
+      </div>
+    </>
   );
 };
 

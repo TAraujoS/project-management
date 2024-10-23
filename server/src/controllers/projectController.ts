@@ -38,3 +38,22 @@ export const getProjects = async (
       .json({ message: `Failed to retrieve projects: ${error.message}` });
   }
 };
+
+export const deleteProject = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { projectId } = req.params;
+  try {
+    const deletedProject = await prisma.project.delete({
+      where: {
+        id: Number(projectId),
+      },
+    });
+    res.json(deletedProject);
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ message: `Failed to delete project: ${error.message}` });
+  }
+};

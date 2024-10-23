@@ -71,7 +71,7 @@ const Navbar = () => {
         >
           <Settings className="h-6 w-6 cursor-pointer dark:text-white" />
         </Link>
-        <div className="bg-gray200 ml-2 mr-5 hidden min-h-[2em] w-[0.rem] md:inline-block"></div>
+        <div className="ml-2 mr-5 hidden min-h-[2em] w-[0.1rem] bg-gray-200 md:inline-block"></div>
         <div className="hidden items-center justify-between md:flex">
           <div className="align-center flex h-9 w-9 justify-center">
             {!!currentUserDetails?.profilePictureUrl ? (
@@ -80,7 +80,7 @@ const Navbar = () => {
                 alt={currentUserDetails?.username || "User profile picture"}
                 width={100}
                 height={50}
-                className="h-auto w-full rounded-t-md"
+                className="h-full rounded-full object-cover"
               />
             ) : (
               <User className="h-6 w-6 cursor-pointer self-center rounded-full dark:text-white" />

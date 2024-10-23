@@ -57,7 +57,8 @@ const Sidebar = () => {
       <div className="flex h-[100%] w-full flex-col justify-start">
         <div className="z-50 flex min-h-[56px] w-64 items-center justify-between bg-white px-6 pt-3 dark:bg-black">
           <div className="text-xl font-bold text-gray-800 dark:text-white">
-            Lista Thiago
+            Lista{" "}
+            {currentUser.user?.username || currentUserDetails?.username || ""}
           </div>
           {isSidebarCollapsed ? null : (
             <button
@@ -75,7 +76,7 @@ const Sidebar = () => {
           <Image
             src="https://pm-s3-th-images.s3.us-east-1.amazonaws.com/logo.png"
             alt="Logo"
-            width={40}
+            width={60}
             height={40}
           />
           <div>

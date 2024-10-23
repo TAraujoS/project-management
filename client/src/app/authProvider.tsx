@@ -1,5 +1,11 @@
 import React from "react";
-import { Authenticator, Placeholder } from "@aws-amplify/ui-react";
+import {
+  Authenticator,
+  Theme,
+  ThemeProvider,
+  useTheme,
+  View,
+} from "@aws-amplify/ui-react";
 import { Amplify } from "aws-amplify";
 import "@aws-amplify/ui-react/styles.css";
 import { I18n } from "aws-amplify/utils";
@@ -62,45 +68,92 @@ const formFields = {
 };
 
 const AuthProvider = ({ children }: any) => {
+  const { tokens } = useTheme();
+
+  const theme: Theme = {
+    name: "authenticator",
+    tokens: {
+      components: {
+        authenticator: {
+          router: {
+            boxShadow: `0 0 16px ${tokens.colors.blue["20"]}`,
+            borderWidth: "0",
+          },
+          form: {
+            padding: `${tokens.space.medium} ${tokens.space.xl} ${tokens.space.medium}`,
+          },
+        },
+        button: {
+          primary: {
+            backgroundColor: tokens.colors.blue["60"],
+          },
+          link: {
+            color: tokens.colors.blue["80"],
+          },
+        },
+        fieldcontrol: {
+          _focus: {
+            boxShadow: `0 0 0 2px ${tokens.colors.blue["20"]}`,
+          },
+        },
+        tabs: {
+          item: {
+            color: tokens.colors.blue["40"],
+            _active: {
+              borderColor: tokens.colors.blue["80"],
+              color: tokens.colors.blue["100"],
+            },
+            _focus: {
+              color: tokens.colors.blue["100"],
+            },
+            _hover: {
+              color: tokens.colors.blue["80"],
+            },
+          },
+        },
+      },
+    },
+  };
+
   return (
-    <div className="mon-h-screen flex h-full w-full items-center justify-center gap-1 bg-white">
-      <div className="flex min-h-screen w-3/5 flex-col justify-center gap-10 pb-14">
-        <div className="-mt-12">
-          <Image
-            src="https://pm-s3-th-images.s3.us-east-1.amazonaws.com/logo.png"
-            alt="Logo"
-            width={150}
-            height={150}
-            className="mx-auto"
-          />
-          <h1 className="mx-auto w-2/3 text-center text-2xl font-semibold text-cyan-800">
-            <strong>
-              Faça com que todos trabalhem em uma única plataforma
-            </strong>{" "}
-            projetada para gerenciar qualquer tipo de trabalho.
-          </h1>
-        </div>
-        <Authenticator formFields={formFields}>
+    <ThemeProvider theme={theme}>
+      <View>
+        <Authenticator
+          formFields={formFields}
+          components={{
+            Header() {
+              return (
+                <div className="my-10 text-center">
+                  <Image
+                    src="https://pm-s3-th-images.s3.us-east-1.amazonaws.com/logo.png"
+                    alt="Logo"
+                    width={150}
+                    height={150}
+                    className="mx-auto"
+                  />
+                  <h1 className="w-full text-2xl font-semibold text-blue-900">
+                    <strong>
+                      Faça com que todos trabalhem em uma única plataforma
+                    </strong>{" "}
+                    projetada para gerenciar qualquer tipo de trabalho.
+                  </h1>
+                </div>
+              );
+            },
+          }}
+        >
           {({ user }: any) =>
             user ? (
               <div>{children}</div>
             ) : (
               <div>
-                <h1>Please Sign In below:</h1>
+                <h1>Por favor efetue o login:</h1>
               </div>
             )
           }
         </Authenticator>
-      </div>
-
-      <div className="sticky top-0 flex h-screen w-2/5 items-center justify-center bg-cyan-700 max-lg:hidden">
-        <iframe
-          width={500}
-          height={500}
-          src="https://lottie.host/embed/f1a8b120-9ab3-4957-ab3b-f713c3c9916a/pRodU2YQJA.json"
-        />
-      </div>
-    </div>
+      </View>
+    </ThemeProvider>
   );
 };
 

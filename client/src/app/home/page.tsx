@@ -1,8 +1,9 @@
 "use client";
 
-import { useGetProjectsQuery, useGetTasksQuery } from "@/state/api";
 import React from "react";
 import { useAppSelector } from "../redux";
+import { useGetProjectsQuery } from "@/state/api/projectsApi";
+import { useGetTasksQuery } from "@/state/api/tasksApi";
 import { Priority, Project, Task } from "@/types";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Header from "@/components/Header";

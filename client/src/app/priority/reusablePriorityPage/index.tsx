@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import { useAppSelector } from "@/app/redux";
 import Header from "@/components/Header";
 import ModalNewTask from "@/components/ModalNewTask";
@@ -10,11 +11,11 @@ import {
   priorityTranslations,
   statusTranslations,
 } from "@/lib/utils";
-import { useGetAuthUserQuery, useGetTasksByUserQuery } from "@/state/api";
+import { useGetAuthUserQuery } from "@/state/api/api";
+import { useGetTasksByUserQuery } from "@/state/api/tasksApi";
 import { Priority, Task } from "@/types";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { format } from "date-fns";
-import React, { useState } from "react";
 
 type PriorityProps = {
   priority: Priority;

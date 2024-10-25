@@ -1,3 +1,4 @@
+import React from "react";
 import { useAppSelector } from "@/app/redux";
 import Header from "@/components/Header";
 import {
@@ -6,11 +7,10 @@ import {
   priorityTranslations,
   statusTranslations,
 } from "@/lib/utils";
-import { useGetTasksQuery } from "@/state/api";
+import { useGetTasksQuery } from "@/state/api/tasksApi";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { format } from "date-fns";
 import { PlusSquare } from "lucide-react";
-import React from "react";
 
 type TableProps = {
   id: string;

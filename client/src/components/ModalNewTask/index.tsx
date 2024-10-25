@@ -1,7 +1,7 @@
-import { useCreateTaskMutation } from "@/state/api";
+import React, { useState } from "react";
+import { useCreateTaskMutation } from "@/state/api/tasksApi";
 import { Priority, Status } from "@/types";
 import { addDays, formatISO } from "date-fns";
-import React, { useState } from "react";
 import Modal from "../Modal";
 
 type ModalNewTaskProps = {

@@ -1,9 +1,10 @@
+import React, { useState } from "react";
+import { Task as TaskType } from "@/types";
 import {
   useDeleteTaskMutation,
   useGetTasksQuery,
   useUpdateTaskStatusMutation,
-} from "@/state/api";
-import { Task as TaskType } from "@/types";
+} from "@/state/api/tasksApi";
 import {
   EllipsisVertical,
   MessageSquareMore,
@@ -12,7 +13,6 @@ import {
   X,
 } from "lucide-react";
 import { format } from "date-fns";
-import React, { useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Image from "next/image";
@@ -265,7 +265,7 @@ const Task = ({ task }: TaskProps) => {
                 }}
                 className="flex items-center gap-2"
               >
-                <TrashIcon height={15} width={15} /> Delete
+                <TrashIcon height={15} width={15} /> Excluir
               </MenuItem>
             </Menu>
           </div>

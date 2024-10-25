@@ -1,8 +1,8 @@
 "use client";
 
-import { useGetUsersQuery } from "@/state/api";
 import React from "react";
 import { useAppSelector } from "../redux";
+import { useGetUsersQuery } from "@/state/api/api";
 import Header from "@/components/Header";
 import {
   DataGrid,

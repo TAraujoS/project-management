@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import { useDeleteProjectMutation } from "@/state/api/projectsApi";
 import Header from "@/components/Header";
 import {
   Clock,
@@ -9,11 +11,9 @@ import {
   Table,
   Trash2,
 } from "lucide-react";
-import React, { useState } from "react";
 import ModalNewProject from "./ModalNewProject";
 import { TabType } from "@/types";
 import ModalDelete from "./ModalDelete";
-import { useDeleteProjectMutation } from "@/state/api";
 import { useParams } from "next/navigation";
 
 type ProjectHeaderProps = {

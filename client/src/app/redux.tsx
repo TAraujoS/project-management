@@ -7,7 +7,7 @@ import {
   Provider,
 } from "react-redux";
 import globalReducer from "@/state";
-import { api } from "@/state/api";
+import { baseApi } from "@/state/api/api";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 import {
@@ -22,6 +22,10 @@ import {
 } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+
+// Redux é utilizado para gerenciar o estado global da aplicação, permitindo o compartilhamento de dados entre diferentes componentes sem a necessidade de passar props manualmente.
+// O Redux Toolkit simplifica a criação de slices, a lógica de reducers e a configuração de middleware, oferecendo uma abordagem mais eficiente para o gerenciamento de estado.
+// Neste projeto, o Redux Toolkit também integra a RTK Query, usada para gerenciar o cache e o ciclo de vida de chamadas à API, facilitando o fetching, caching e sincronização de dados entre o frontend (Next.js) e o backend (Node.js).
 
 /* REDUX PERSISTENCE */
 const createNoopStorage = () => {
@@ -50,7 +54,7 @@ const persistConfig = {
 };
 const rootReducer = combineReducers({
   global: globalReducer,
-  [api.reducerPath]: api.reducer,
+  [baseApi.reducerPath]: baseApi.reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -63,7 +67,7 @@ export const makeStore = () => {
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-      }).concat(api.middleware),
+      }).concat(baseApi.middleware),
   });
 };
 

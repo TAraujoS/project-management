@@ -1,7 +1,7 @@
-import Header from "@/components/Header";
-import { useGetTasksQuery } from "@/state/api";
-import { Task } from "@/types";
 import React from "react";
+import Header from "@/components/Header";
+import { useGetTasksQuery } from "@/state/api/tasksApi";
+import { Task } from "@/types";
 import TaskCard from "@/components/TaskCard";
 import { PlusSquare } from "lucide-react";
 import EmptyTasks from "@/components/EmptyTasks";

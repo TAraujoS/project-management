@@ -1,12 +1,12 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import ProjectCard from "@/components/ProjectCard";
 import TaskCard from "@/components/TaskCard";
 import UserCard from "@/components/UserCard";
-import { useSearchQuery } from "@/state/api";
+import { useSearchQuery } from "@/state/api/api";
 import { debounce } from "lodash";
-import React, { useEffect, useState } from "react";
 
 const Search = () => {
   const [searchText, setSearchText] = useState("");

@@ -50,27 +50,33 @@ const Search = () => {
                 Tarefas
               </h2>
             )}
-            {searchResults.tasks?.map((task) => (
-              <TaskCard key={task.id} task={task} />
-            ))}
+            <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+              {searchResults.tasks?.map((task) => (
+                <TaskCard key={task.id} task={task} />
+              ))}
+            </div>
 
             {searchResults.projects && searchResults.projects.length > 0 && (
               <h2 className="mb-3 text-xl font-semibold dark:text-white">
                 Projetos
               </h2>
             )}
-            {searchResults.projects?.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
+            <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+              {searchResults.projects?.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
 
             {searchResults.users && searchResults.users.length > 0 && (
               <h2 className="mb-3 text-xl font-semibold dark:text-white">
                 Usuários
               </h2>
             )}
-            {searchResults.users?.map((user) => (
-              <UserCard key={user.userId} user={user} />
-            ))}
+            <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+              {searchResults.users?.map((user) => (
+                <UserCard key={user.userId} user={user} />
+              ))}
+            </div>
           </div>
         )}
       </div>

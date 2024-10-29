@@ -56,6 +56,7 @@ export const getTasks = async (req: Request, res: Response): Promise<void> => {
         assignee: true,
         comments: true,
         attachments: true,
+        project: true,
       },
     });
     res.json(tasks);
@@ -105,6 +106,7 @@ export const getUserTasks = async (
       include: {
         author: true,
         assignee: true,
+        project: true,
       },
     });
     res.json(tasks);

@@ -85,12 +85,6 @@ const ProjectHeader = ({ activeTab, setActiveTab }: ProjectHeaderProps) => {
             setActiveTab={setActiveTab}
             activeTab={activeTab}
           />
-          <TabButton
-            name={TabType.List}
-            icon={<List className="h-5 w-5" />}
-            setActiveTab={setActiveTab}
-            activeTab={activeTab}
-          />
         </div>
 
         <div className="flex items-center gap-2">

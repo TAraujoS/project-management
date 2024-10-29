@@ -23,6 +23,7 @@ export enum TabType {
 export interface Project {
   id: number;
   name: string;
+  tasks?: Task[];
   description?: string;
   startDate?: string;
   endDate?: string;
@@ -79,6 +80,7 @@ export interface Task {
   authorUserId?: number;
   assignedUserId?: number;
 
+  project: Project;
   author?: User;
   assignee?: User;
   comments?: Comment[];

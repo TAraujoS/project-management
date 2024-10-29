@@ -16,7 +16,7 @@ import { format } from "date-fns";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Image from "next/image";
-import { priorityTranslations, statusTranslations } from "@/lib/utils";
+import { statusTranslations } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -25,10 +25,11 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Skeleton,
 } from "@mui/material";
 import EmptyTasks from "@/components/EmptyTasks";
-
 import ModalDelete from "../ModalDelete";
+import PriorityTag from "@/components/PriorityTag";
 
 type BoardProps = {
   id: string;
@@ -49,7 +50,27 @@ const BoardView = ({ id, setIsModalNewTaskOpen }: BoardProps) => {
     updateTaskStatus({ taskId, status: toStatus });
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="flex px-4">
+        <div className="flex flex-col justify-between gap-3 px-2 py-4">
+          <Skeleton variant="rectangular" width={300} height={50} />
+          <Skeleton variant="rectangular" width={300} height={185} />
+        </div>
+        <div className="flex flex-col justify-between gap-3 px-2 py-4">
+          <Skeleton variant="rectangular" width={300} height={50} />
+          <Skeleton variant="rectangular" width={300} height={185} />
+        </div>
+        <div className="flex flex-col justify-between gap-3 px-2 py-4">
+          <Skeleton variant="rectangular" width={300} height={50} />
+          <Skeleton variant="rectangular" width={300} height={185} />
+        </div>
+        <div className="flex flex-col justify-between gap-3 px-2 py-4">
+          <Skeleton variant="rectangular" width={300} height={50} />
+          <Skeleton variant="rectangular" width={300} height={185} />
+        </div>
+      </div>
+    );
 
   if (error) return <div>An Error ocurred while fetching tasks</div>;
 
@@ -177,24 +198,6 @@ const Task = ({ task }: TaskProps) => {
     : "";
 
   const numberOfComments = (task.comments && task.comments.length) || 0;
-
-  const PriorityTag = ({ priority }: { priority: TaskType["priority"] }) => (
-    <div
-      className={`rounded-full px-2 py-1 text-xs font-semibold ${
-        priority === "Urgent"
-          ? "bg-red-200 text-red-700"
-          : priority === "High"
-            ? "bg-yellow-200 text-yellow-700"
-            : priority === "Medium"
-              ? "bg-green-200 text-green-700"
-              : priority === "Low"
-                ? "bg-blue-200 text-blue-700"
-                : "bg-gray-200 text-gray-700"
-      }`}
-    >
-      {priorityTranslations[priority || "Backlog"]}
-    </div>
-  );
 
   return (
     <>

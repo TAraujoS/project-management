@@ -13,6 +13,12 @@ export const search = async (req: Request, res: Response): Promise<void> => {
           { description: { contains: query as string } },
         ],
       },
+      include: {
+        attachments: true,
+        author: true,
+        assignee: true,
+        project: true,
+      },
     });
 
     const projects = await prisma.project.findMany({
@@ -21,6 +27,9 @@ export const search = async (req: Request, res: Response): Promise<void> => {
           { name: { contains: query as string } },
           { description: { contains: query as string } },
         ],
+      },
+      include: {
+        tasks: true,
       },
     });
 

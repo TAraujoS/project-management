@@ -64,16 +64,16 @@ const columns: GridColDef[] = [
     renderCell: (params) => format(new Date(params.value), "dd/MM/yyyy"),
   },
   {
-    field: "autor",
+    field: "author",
     headerName: "Autor",
     width: 150,
-    renderCell: (params) => params.value?.author || "Nenhum",
+    renderCell: (params) => params.value?.username || "Nenhum",
   },
   {
     field: "assignee",
     headerName: "Responsável",
     width: 150,
-    renderCell: (params) => params.value?.assignee || "Sem Responsável",
+    renderCell: (params) => params.value?.username || "Sem Responsável",
   },
 ];
 const TableView = ({ id, setIsModalNewTaskOpen }: TableProps) => {

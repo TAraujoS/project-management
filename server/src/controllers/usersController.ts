@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { hashSync } from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -15,11 +16,11 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
 };
 
 export const getUser = async (req: Request, res: Response): Promise<void> => {
-  const { cognitoId } = req.params;
+  const { userId } = req.params;
   try {
     const user = await prisma.user.findUnique({
       where: {
-        cognitoId: cognitoId,
+        userId: +userId,
       },
     });
 
@@ -37,7 +38,6 @@ export const createUser = async (
 ): Promise<void> => {
   const {
     username,
-    cognitoId,
     profilePictureUrl = "i1.jpg",
     teamId = 1,
     email,
@@ -47,11 +47,10 @@ export const createUser = async (
     const newUser = await prisma.user.create({
       data: {
         username,
-        cognitoId,
+        email,
+        password: hashSync(password, 10),
         profilePictureUrl,
         teamId,
-        // email,
-        // password,
       },
     });
     res.status(201).json({ message: "User created successfully", newUser });

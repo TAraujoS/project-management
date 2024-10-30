@@ -1,122 +1,142 @@
 [
   {
     "username": "Alice Jones",
+    "email": "alice@email.com",
     "teamId": 1,
     "profilePictureUrl": "p1.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174001"
+    "password": "123e4567-e89b-12d3-a456-426614174001"
   },
   {
     "username": "Bob Smith",
+    "email": "bob@email.com",
     "teamId": 2,
     "profilePictureUrl": "p2.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174002"
+    "password": "123e4567-e89b-12d3-a456-426614174002"
   },
   {
     "username": "Carol White",
+    "email": "carol.w@email.com",
     "teamId": 3,
     "profilePictureUrl": "p3.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174003"
+    "password": "123e4567-e89b-12d3-a456-426614174003"
   },
   {
     "username": "Dave Brown",
+    "email": "dave.b@email.com",
     "teamId": 4,
     "profilePictureUrl": "p4.jpeg",
-    "cognitoId": "213b7530-1031-70e0-67e9-fe0805e18fb3"
+    "password": "213b7530-1031-70e0-67e9-fe0805e18fb3"
   },
   {
     "username": "Eve Clark",
+    "email": "clark@email.com",
     "teamId": 5,
     "profilePictureUrl": "p5.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174005"
+    "password": "123e4567-e89b-12d3-a456-426614174005"
   },
   {
     "username": "Frank Wright",
+    "email": "frank_w@email.com",
     "teamId": 1,
     "profilePictureUrl": "p6.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174006"
+    "password": "123e4567-e89b-12d3-a456-426614174006"
   },
   {
     "username": "Grace Hall",
+    "email": "hall@email.com",
     "teamId": 2,
     "profilePictureUrl": "p7.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174007"
+    "password": "123e4567-e89b-12d3-a456-426614174007"
   },
   {
     "username": "Henry Allen",
+    "email": "allen.h@email.com",
     "teamId": 3,
     "profilePictureUrl": "p8.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174008"
+    "password": "123e4567-e89b-12d3-a456-426614174008"
   },
   {
     "username": "Ida Martin",
+    "email": "ida@email.com",
     "teamId": 4,
     "profilePictureUrl": "p9.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174009"
+    "password": "123e4567-e89b-12d3-a456-426614174009"
   },
   {
     "username": "John Doe",
+    "email": "john_doe@email.com",
     "teamId": 5,
     "profilePictureUrl": "p10.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174010"
+    "password": "123e4567-e89b-12d3-a456-426614174010"
   },
   {
     "username": "Laura Adams",
+    "email": "lauraadams@email.com",
     "teamId": 1,
     "profilePictureUrl": "p11.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174011"
+    "password": "123e4567-e89b-12d3-a456-426614174011"
   },
   {
     "username": "Norman Bates",
+    "email": "bates@email.com",
     "teamId": 2,
     "profilePictureUrl": "p12.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174012"
+    "password": "123e4567-e89b-12d3-a456-426614174012"
   },
   {
     "username": "Olivia Pace",
+    "email": "o_pace@email.com",
     "teamId": 3,
     "profilePictureUrl": "p13.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174013"
+    "password": "123e4567-e89b-12d3-a456-426614174013"
   },
   {
     "username": "Peter Quill",
+    "email": "quill@email.com",
     "teamId": 4,
     "profilePictureUrl": "p1.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174014"
+    "password": "123e4567-e89b-12d3-a456-426614174014"
   },
   {
     "username": "Quincy Adams",
+    "email": "quincyadams@email.com",
     "teamId": 5,
     "profilePictureUrl": "p2.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174015"
+    "password": "123e4567-e89b-12d3-a456-426614174015"
   },
   {
     "username": "Rachel Green",
+    "email": "r.green@email.com",
     "teamId": 1,
     "profilePictureUrl": "p3.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174016"
+    "password": "123e4567-e89b-12d3-a456-426614174016"
   },
   {
     "username": "Steve Jobs",
+    "email": "stjb@email.com",
     "teamId": 2,
     "profilePictureUrl": "p4.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174017"
+    "password": "123e4567-e89b-12d3-a456-426614174017"
   },
   {
     "username": "Tina Fey",
+    "email": "tfey@email.com",
     "teamId": 3,
     "profilePictureUrl": "p5.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174018"
+    "password": "123e4567-e89b-12d3-a456-426614174018"
   },
   {
     "username": "Ursula Monroe",
+    "email": "umonroe@email.com",
     "teamId": 4,
     "profilePictureUrl": "p6.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174019"
+    "password": "123e4567-e89b-12d3-a456-426614174019"
   },
   {
     "username": "Victor Hugo",
+    "email": "vh@email.com",
     "teamId": 5,
     "profilePictureUrl": "p7.jpeg",
-    "cognitoId": "123e4567-e89b-12d3-a456-426614174020"
+    "password": "123e4567-e89b-12d3-a456-426614174020"
   }
 ]

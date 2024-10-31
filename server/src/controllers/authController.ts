@@ -11,7 +11,13 @@ const prisma = new PrismaClient();
 
 export const signup = async (req: Request, res: Response) => {
   // SignUpSchema.parse(req.body);
-  const { username, email, password } = req.body;
+  const {
+    username,
+    profilePictureUrl = "i1.jpg",
+    teamId = 1,
+    email,
+    password,
+  } = req.body;
 
   let user = await prisma.user.findFirst({
     where: {
@@ -28,13 +34,15 @@ export const signup = async (req: Request, res: Response) => {
 
   user = await prisma.user.create({
     data: {
-      username,
       email,
       password: hashSync(password, 10),
+      username,
+      profilePictureUrl,
+      teamId,
     },
   });
 
-  res.json(user);
+  res.json({ message: "User created successfully", user });
 };
 
 export const login = async (req: Request, res: Response) => {

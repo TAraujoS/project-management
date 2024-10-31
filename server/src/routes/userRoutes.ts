@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { createUser, getUser, getUsers } from "../controllers/usersController";
+import { getUser, getUsers } from "../controllers/usersController";
+import { errorHandler } from "../error-handler";
+import authMiddleware from "../middlewares/auth";
 
 const router = Router();
 
-router.get("/", getUsers);
-router.post("/", createUser);
-router.get("/:cognitoId", getUser);
+router.get("/", [authMiddleware], errorHandler(getUsers));
+router.get("/:userId", [authMiddleware], errorHandler(getUser));
 
 export default router;

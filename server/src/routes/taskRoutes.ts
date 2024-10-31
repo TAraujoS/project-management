@@ -6,13 +6,19 @@ import {
   getUserTasks,
   updateTaskStatus,
 } from "../controllers/taskController";
+import authMiddleware from "../middlewares/auth";
+import { errorHandler } from "../error-handler";
 
 const router = Router();
 
-router.post("/", createTask);
-router.get("/", getTasks);
-router.patch("/:taskId/status", updateTaskStatus);
-router.get("/user/:userId", getUserTasks);
-router.delete("/:taskId", deleteTask);
+router.post("/", [authMiddleware], errorHandler(createTask));
+router.get("/", [authMiddleware], errorHandler(getTasks));
+router.patch(
+  "/:taskId/status",
+  [authMiddleware],
+  errorHandler(updateTaskStatus)
+);
+router.get("/user/:userId", [authMiddleware], errorHandler(getUserTasks));
+router.delete("/:taskId", [authMiddleware], errorHandler(deleteTask));
 
 export default router;

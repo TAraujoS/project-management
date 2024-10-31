@@ -14,11 +14,13 @@ const authMiddleware = async (
   const token = req.headers.authorization;
 
   if (!token) {
-    next(new UnauthorizedException("Unauthorized", ErrorCode.UNAUTHORIZED));
+    return next(
+      new UnauthorizedException("Unauthorized", ErrorCode.UNAUTHORIZED)
+    );
   }
 
   try {
-    const payload = jwt.verify(token!, process.env.JWT_SECRET as string) as any;
+    const payload = jwt.verify(token, process.env.JWT_SECRET as string) as any;
 
     const user = await prisma.user.findFirst({
       where: {

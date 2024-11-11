@@ -1,3 +1,11 @@
+import { z } from "zod";
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
 export const dataGridClassNames =
   "border border-gray-200 bg-white shadow dark:border-stroke-dark dark:bg-dark-secondary dark:text-gray-200";
 
@@ -45,3 +53,17 @@ export const priorityTranslations: any = {
   Urgent: "Urgente",
   Backlog: "Backlog",
 };
+
+export const authFormSchema = (type: string) =>
+  z.object({
+    userName:
+      type === "sign-in"
+        ? z.string().optional()
+        : z.string({ required_error: "Obrigatório" }).min(3, {
+            message: "Usuário deve ter pelo menos 3 caracteres.",
+          }),
+    email: z.string().email({ message: "Email inválido." }),
+    password: z
+      .string()
+      .min(8, { message: "Senha deve ter pelo menos 8 caracteres." }),
+  });

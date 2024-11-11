@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useGetTeamsQuery } from "@/state/api/api";
-import { useAppSelector } from "../redux";
+import { useAppSelector } from "../../redux";
 import Header from "@/components/Header";
 import {
   DataGrid,

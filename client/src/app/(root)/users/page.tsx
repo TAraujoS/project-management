@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useAppSelector } from "../redux";
+import { useAppSelector } from "../../redux";
 import { useGetUsersQuery } from "@/state/api/api";
 import Header from "@/components/Header";
 import {
@@ -33,7 +33,7 @@ const columns: GridColDef[] = [
       <div className="flex h-full w-full items-center justify-center">
         <div className="h-9 w-9">
           <Image
-            src={`https://pm-s3-th-images.s3.us-east-1.amazonaws.com/${params.value}`}
+            src={`/${params.value}`}
             alt={params.row.username}
             width={100}
             height={50}

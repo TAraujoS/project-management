@@ -1,13 +1,17 @@
 "use client";
 
 import React, { useEffect } from "react";
-
-import StoreProvider, { useAppSelector } from "./redux";
+import { useAppSelector } from "../redux";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import AuthProvider from "./authProvider";
+import { useGetAuthUserQuery } from "@/state/api/api";
+import { redirect } from "next/navigation";
 
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
@@ -20,6 +24,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       document.documentElement.classList.remove("dark");
     }
   });
+
+  const { data: currentUser } = useGetAuthUserQuery({});
+
+  if (!currentUser) redirect("/sign-in");
 
   return (
     <div className="flex min-h-screen w-full bg-gray-50 text-gray-900">
@@ -34,16 +42,4 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       </main>
     </div>
   );
-};
-
-const DashboardWrapper = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <StoreProvider>
-      <AuthProvider>
-        <DashboardLayout>{children}</DashboardLayout>
-      </AuthProvider>
-    </StoreProvider>
-  );
-};
-
-export default DashboardWrapper;
+}

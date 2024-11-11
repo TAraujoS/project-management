@@ -2,7 +2,7 @@
 
 import { TabType } from "@/types";
 import React, { useState } from "react";
-import ProjectHeader from "@/app/projects/ProjectHeader";
+import ProjectHeader from "@/app/(root)/projects/ProjectHeader";
 import BoardView from "../BoardView";
 import ListView from "../ListView";
 import TimeLineView from "../TimeLineView";

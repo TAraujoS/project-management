@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useAppSelector } from "../redux";
+import { useAppSelector } from "@/app/redux";
 import { useGetProjectsQuery } from "@/state/api/projectsApi";
 import { useGetTasksQuery } from "@/state/api/tasksApi";
 import { Priority, Project, Task } from "@/types";

@@ -62,3 +62,63 @@ body,
   width: 0px;
   height: 0px;
 }
+
+
+
+
+@layer utilities {
+  .text-12 {
+    @apply text-[12px] leading-[16px];
+  }
+  
+  .text-14 {
+    @apply text-[14px] leading-[20px];
+  }
+  
+  .text-16 {
+    @apply text-[16px] leading-[24px];
+  }
+  
+  .text-24 {
+    @apply text-[24px] leading-[30px];
+  }
+  
+  .text-36 {
+    @apply text-[28px] leading-[38px];
+  }
+
+  .input-class {
+    @apply text-16 placeholder:text-14 rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500;
+  }
+
+  /* Auth */
+  .auth-asset {
+    @apply flex h-screen w-full sticky top-0 items-center justify-end bg-slate-50 max-lg:hidden;
+  }
+
+  /* Auth Form */
+  .auth-form {
+    @apply flex min-h-screen w-full max-w-[420px] flex-col justify-center gap-5 py-8 md:gap-8;
+  }
+
+  .form-item {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .form-label {
+    @apply text-14 w-full max-w-[280px] font-medium text-gray-700;
+  }
+
+  .form-message {
+    @apply text-12 text-red-500;
+  }
+
+  .form-btn {
+    @apply text-16 rounded-lg border border-blue-800 bg-blue-800 font-semibold text-white shadow-sm;
+  }
+
+  .form-link {
+    @apply text-14 cursor-pointer font-medium text-blue-800;
+  }
+
+}

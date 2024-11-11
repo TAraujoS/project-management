@@ -76,7 +76,7 @@ const Navbar = () => {
           <div className="align-center flex h-9 w-9 justify-center">
             {!!currentUserDetails?.profilePictureUrl ? (
               <Image
-                src={`https://pm-s3-th-images.s3.us-east-1.amazonaws.com/${currentUserDetails?.profilePictureUrl}`}
+                src={`/${currentUserDetails?.profilePictureUrl}`}
                 alt={currentUserDetails?.username || "User profile picture"}
                 width={100}
                 height={50}

@@ -74,12 +74,7 @@ const Sidebar = () => {
         </div>
 
         <div className="flex items-center gap-5 border-y-[1.5px] border-gray-200 px-8 py-4 dark:border-gray-700">
-          <Image
-            src="https://pm-s3-th-images.s3.us-east-1.amazonaws.com/logo.png"
-            alt="Logo"
-            width={60}
-            height={40}
-          />
+          <Image src="/logo.png" alt="Logo" width={60} height={40} />
           <div>
             <h3 className="text-md font-bold tracking-wide dark:text-gray-200">
               Meu Time
@@ -171,7 +166,7 @@ const Sidebar = () => {
           <div className="align-center flex h-9 w-9 justify-center">
             {!!currentUserDetails?.profilePictureUrl ? (
               <Image
-                src={`https://pm-s3-th-images.s3.us-east-1.amazonaws.com/${currentUserDetails?.profilePictureUrl}`}
+                src={`/${currentUserDetails?.profilePictureUrl}`}
                 alt={currentUserDetails?.username || "User profile picture"}
                 width={100}
                 height={50}

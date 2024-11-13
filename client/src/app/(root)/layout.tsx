@@ -4,8 +4,6 @@ import React, { useEffect } from "react";
 import { useAppSelector } from "../redux";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import { useGetAuthUserQuery } from "@/state/api/api";
-import { redirect } from "next/navigation";
 
 export default function RootLayout({
   children,

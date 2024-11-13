@@ -5,7 +5,6 @@ import {
   Clock,
   Filter,
   Grid3x3,
-  List,
   PlusSquare,
   Share2,
   Table,

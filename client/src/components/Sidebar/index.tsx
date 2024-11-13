@@ -1,9 +1,9 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/app/redux";
-import { setIsSidebarCollapsed } from "@/state";
 import { useGetAuthUserQuery } from "@/state/api/api";
 import { useGetProjectsQuery } from "@/state/api/projectsApi";
+import { setIsSidebarCollapsed } from "@/state/globalSlice";
 import { signOut } from "aws-amplify/auth";
 import {
   AlertCircle,
@@ -38,7 +38,7 @@ const Sidebar = () => {
     (state) => state.global.isSidebarCollapsed,
   );
 
-  const { data: currentUser } = useGetAuthUserQuery({});
+  const { data: currentUser } = useGetAuthUserQuery();
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -48,7 +48,6 @@ const Sidebar = () => {
   };
 
   if (!currentUser) return null;
-  const currentUserDetails = currentUser.userDetails;
 
   const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl
   transition-all duration-300 h-full z-40 dark:bg-black overflow-y-auto bg-white ${isSidebarCollapsed ? "w-0 hidden" : "w-64"}
@@ -58,8 +57,7 @@ const Sidebar = () => {
       <div className="flex h-[100%] w-full flex-col justify-start">
         <div className="z-50 flex min-h-[56px] w-64 items-center justify-between bg-white px-6 pt-3 dark:bg-black">
           <div className="text-xl font-bold text-gray-800 dark:text-white">
-            Lista{" "}
-            {currentUser.user?.username || currentUserDetails?.username || ""}
+            Lista {currentUser?.username || ""}
           </div>
           {isSidebarCollapsed ? null : (
             <button
@@ -164,10 +162,10 @@ const Sidebar = () => {
       >
         <div className="flex w-full items-center">
           <div className="align-center flex h-9 w-9 justify-center">
-            {!!currentUserDetails?.profilePictureUrl ? (
+            {!!currentUser?.profilePictureUrl ? (
               <Image
-                src={`/${currentUserDetails?.profilePictureUrl}`}
-                alt={currentUserDetails?.username || "User profile picture"}
+                src={`/${currentUser?.profilePictureUrl}`}
+                alt={currentUser?.username || "User profile picture"}
                 width={100}
                 height={50}
                 className="h-auto w-full rounded-t-md"
@@ -177,7 +175,7 @@ const Sidebar = () => {
             )}
           </div>
           <span className="mx-3 text-gray-800 dark:text-white">
-            {currentUserDetails?.username}
+            {currentUser?.username}
           </span>
           <button
             className="self-start rounded bg-blue-400 px-4 py-2 text-xs font-bold text-white hover:bg-blue-500 md:block"

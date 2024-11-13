@@ -25,10 +25,6 @@ export default function RootLayout({
     }
   });
 
-  const { data: currentUser } = useGetAuthUserQuery({});
-
-  if (!currentUser) redirect("/sign-in");
-
   return (
     <div className="flex min-h-screen w-full bg-gray-50 text-gray-900">
       <Sidebar />

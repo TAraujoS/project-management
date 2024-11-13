@@ -114,7 +114,7 @@ body,
   }
 
   .form-btn {
-    @apply text-16 rounded-lg border border-blue-800 bg-blue-800 font-semibold text-white shadow-sm;
+    @apply text-16 rounded-lg flex justify-center gap-4 p-1 border border-blue-800 bg-blue-800 font-semibold text-white shadow-sm;
   }
 
   .form-link {

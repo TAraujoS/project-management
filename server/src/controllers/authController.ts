@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import { ErrorCode } from "../exceptions/root";
 import { BadRequestException } from "../exceptions/bad-request";
 import { NotFoundException } from "../exceptions/not-found";
+import { UnauthorizedException } from "../exceptions/unauthorized";
 // import { SignUpSchema } from "@/schema/users";
 
 const prisma = new PrismaClient();
@@ -77,4 +78,27 @@ export const signin = async (req: Request, res: Response) => {
 
 export const me = async (req: Request, res: Response) => {
   res.json(req.user);
+};
+
+const revokedTokens = new Set<string>();
+
+export const signout = async (req: Request, res: Response) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    throw new UnauthorizedException(
+      "No token provided",
+      ErrorCode.UNAUTHORIZED
+    );
+  }
+
+  try {
+    jwt.verify(token, process.env.JWT_SECRET as string);
+
+    revokedTokens.add(token);
+
+    res.status(200).json({ message: "Successfully signed out" });
+  } catch (error) {
+    res.status(401).json({ message: "Invalid token" });
+  }
 };

@@ -44,7 +44,7 @@ export const baseApi = createApi({
       Partial<User>
     >({
       query: (user) => ({
-        url: "auth/login",
+        url: "auth/signin",
         method: "POST",
         body: user,
       }),
@@ -58,6 +58,17 @@ export const baseApi = createApi({
         } catch (error) {
           console.error("Erro ao fazer login:", error);
         }
+      },
+    }),
+    signout: builder.mutation<void, void>({
+      query: () => ({
+        url: "auth/signout",
+        method: "POST",
+      }),
+      onQueryStarted(args, { dispatch, queryFulfilled }) {
+        queryFulfilled.then(() => {
+          localStorage.removeItem("@user:token");
+        });
       },
     }),
     updateUser: builder.mutation<User, { userId: number; user: Partial<User> }>(
@@ -91,4 +102,5 @@ export const {
   useGetUsersQuery,
   useGetTeamsQuery,
   useGetAuthUserQuery,
+  useSignoutMutation,
 } = baseApi;

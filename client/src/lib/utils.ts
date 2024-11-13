@@ -56,7 +56,7 @@ export const priorityTranslations: any = {
 
 export const authFormSchema = (type: string) =>
   z.object({
-    userName:
+    username:
       type === "sign-in"
         ? z.string().optional()
         : z.string({ required_error: "Obrigatório" }).min(3, {

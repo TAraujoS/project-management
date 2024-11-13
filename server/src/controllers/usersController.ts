@@ -3,6 +3,29 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+export const updateUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { userId } = req.params;
+  const { username, email } = req.body.user;
+
+  try {
+    const updatedUser = await prisma.user.update({
+      where: {
+        userId: Number(userId),
+      },
+      data: {
+        username,
+        email,
+      },
+    });
+    res.json(updatedUser);
+  } catch (error: any) {
+    res.status(500).json({ message: `Error updating user: ${error.message}` });
+  }
+};
+
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
     const users = await prisma.user.findMany();

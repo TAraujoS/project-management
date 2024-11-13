@@ -45,7 +45,7 @@ export const signup = async (req: Request, res: Response) => {
   res.json({ message: "User created successfully", user });
 };
 
-export const login = async (req: Request, res: Response) => {
+export const signin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   const user = await prisma.user.findFirst({
@@ -73,4 +73,8 @@ export const login = async (req: Request, res: Response) => {
   );
 
   res.json({ user, token });
+};
+
+export const me = async (req: Request, res: Response) => {
+  res.json(req.user);
 };

@@ -72,7 +72,7 @@ cd server/
 npm run dev
 ```
 
-### 5. Abrir a Aplicação
+### 6. Abrir a Aplicação
 
 Para rodar o client localmente, execute:
 

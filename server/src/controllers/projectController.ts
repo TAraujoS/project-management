@@ -3,6 +3,39 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+/**
+ * @swagger
+ * /projects:
+ *   post:
+ *     tags:
+ *       - Projects
+ *     summary: Create a new project
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               startDate:
+ *                 type: string
+ *                 format: date
+ *               endDate:
+ *                 type: string
+ *                 format: date
+ *     responses:
+ *       201:
+ *         description: Project created successfully
+ *       500:
+ *         description: Error creating a project
+ */
+
 export const createProject = async (
   req: Request,
   res: Response
@@ -25,6 +58,22 @@ export const createProject = async (
   }
 };
 
+/**
+ * @swagger
+ * /projects:
+ *   get:
+ *     tags:
+ *       - Projects
+ *     summary: Retrieve all projects
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: A list of all projects
+ *       500:
+ *         description: Failed to retrieve projects
+ */
+
 export const getProjects = async (
   req: Request,
   res: Response
@@ -38,6 +87,29 @@ export const getProjects = async (
       .json({ message: `Failed to retrieve projects: ${error.message}` });
   }
 };
+
+/**
+ * @swagger
+ * /projects/{projectId}:
+ *   delete:
+ *     tags:
+ *       - Projects
+ *     summary: Delete a project by ID
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: projectId
+ *         in: path
+ *         required: true
+ *         description: ID of the project to delete
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Project deleted successfully
+ *       500:
+ *         description: Failed to delete project
+ */
 
 export const deleteProject = async (
   req: Request,

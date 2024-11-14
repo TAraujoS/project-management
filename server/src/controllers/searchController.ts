@@ -3,6 +3,27 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+/**
+ * @swagger
+ * /search:
+ *   get:
+ *     tags:
+ *       - Search
+ *     summary: Search tasks, projects, and users based on a query
+ *     security:
+ *       - bearerAuth: []  # Indica que a rota requer autenticação
+ *     parameters:
+ *       - in: query
+ *         name: query
+ *         required: true
+ *         description: Search query string
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Search results containing tasks, projects, and users
+ */
+
 export const search = async (req: Request, res: Response): Promise<void> => {
   const { query } = req.query;
   try {

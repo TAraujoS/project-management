@@ -6,12 +6,45 @@ import { ErrorCode } from "../exceptions/root";
 import { BadRequestException } from "../exceptions/bad-request";
 import { NotFoundException } from "../exceptions/not-found";
 import { UnauthorizedException } from "../exceptions/unauthorized";
-// import { SignUpSchema } from "@/schema/users";
+import { SignUpSchema } from "../schema/users";
 
 const prisma = new PrismaClient();
 
+/**
+ * @swagger
+ * /auth/signup:
+ *   post:
+ *     tags:
+ *       - Auth
+ *     summary: Register a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               profilePictureUrl:
+ *                 type: string
+ *                 default: "i1.jpg"
+ *               teamId:
+ *                 type: integer
+ *                 default: 1
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User created successfully
+ *       400:
+ *         description: User already exists
+ */
+
 export const signup = async (req: Request, res: Response) => {
-  // SignUpSchema.parse(req.body);
+  SignUpSchema.parse(req.body);
   const {
     username,
     profilePictureUrl = "i1.jpg",
@@ -45,6 +78,32 @@ export const signup = async (req: Request, res: Response) => {
 
   res.json({ message: "User created successfully", user });
 };
+/**
+ * @swagger
+ * /auth/signin:
+ *   post:
+ *     tags:
+ *       - Auth
+ *     summary: Sign in a user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User signed in successfully
+ *       404:
+ *         description: User not found
+ *       400:
+ *         description: Incorrect password
+ */
 
 export const signin = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -76,11 +135,39 @@ export const signin = async (req: Request, res: Response) => {
   res.json({ user, token });
 };
 
+/**
+ * @swagger
+ * /auth/me:
+ *   get:
+ *     tags:
+ *       - Auth
+ *     summary: Get the authenticated user's information
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: User information returned successfully
+ */
+
 export const me = async (req: Request, res: Response) => {
   res.json(req.user);
 };
 
-const revokedTokens = new Set<string>();
+/**
+ * @swagger
+ * /auth/signout:
+ *   post:
+ *     tags:
+ *       - Auth
+ *     summary: Sign out the current user
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully signed out
+ *       401:
+ *         description: Invalid token or no token provided
+ */
 
 export const signout = async (req: Request, res: Response) => {
   const token = req.headers.authorization?.split(" ")[1];
@@ -92,6 +179,7 @@ export const signout = async (req: Request, res: Response) => {
     );
   }
 
+  const revokedTokens = new Set<string>();
   try {
     jwt.verify(token, process.env.JWT_SECRET as string);
 

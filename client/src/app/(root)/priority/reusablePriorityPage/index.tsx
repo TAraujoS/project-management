@@ -160,6 +160,14 @@ const ReusablePriorityPage = ({ priority }: PriorityProps) => {
           </div>
         )
       )}
+
+      {filteredTasks?.length === 0 && (
+        <div className="text-center">
+          <p className="mt-5 text-xl font-semibold dark:text-white">
+            Nenhuma tarefa relacionado a você e essa prioridade foi encontrada.
+          </p>
+        </div>
+      )}
     </div>
   );
 };

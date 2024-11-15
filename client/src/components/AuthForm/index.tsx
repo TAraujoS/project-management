@@ -8,11 +8,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { authFormSchema } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
-
 import { useRouter } from "next/navigation";
 import CustomInput from "../CustomInput";
 import { Form } from "../Form";
 import { useSignupMutation, useSigninMutation } from "@/state/api/api";
+import toast from "react-hot-toast";
 
 const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
@@ -38,8 +38,8 @@ const AuthForm = ({ type }: { type: string }) => {
           email: data.email,
           password: data.password,
         };
-        const newUser = await createUser(userData);
-        if (newUser.data) {
+        const response = await createUser(userData);
+        if (response.data) {
           router.push("/sign-in");
         }
       }
@@ -50,10 +50,14 @@ const AuthForm = ({ type }: { type: string }) => {
           password: data.password,
         });
         if (response.data) {
+          toast.success("Login efetuado com sucesso!");
           router.push("/");
+        } else {
+          toast.error("Usuário ou senha inválidos");
         }
       }
     } catch (error) {
+      toast.error("Erro ao efetuar login");
       console.log(error);
     } finally {
       setLoading(false);

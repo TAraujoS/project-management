@@ -3,6 +3,7 @@ import { useCreateTaskMutation } from "@/state/api/tasksApi";
 import { Priority, Status } from "@/types";
 import { addDays, formatISO } from "date-fns";
 import Modal from "../Modal";
+import toast from "react-hot-toast";
 
 type ModalNewTaskProps = {
   isOpen: boolean;
@@ -37,35 +38,42 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: ModalNewTaskProps) => {
       },
     );
 
-    await createTask({
-      title,
-      description,
-      status,
-      priority,
-      tags,
-      startDate: formattedStartDate,
-      dueDate: formattedDueDate,
-      authorUserId: parseInt(authorUserId),
-      assignedUserId: parseInt(assignedUserId),
-      projectId: id !== null ? Number(id) : Number(projectId),
-    });
+    try {
+      const response = await createTask({
+        title,
+        description,
+        status,
+        priority,
+        tags,
+        startDate: formattedStartDate,
+        dueDate: formattedDueDate,
+        authorUserId: parseInt(authorUserId),
+        assignedUserId: parseInt(assignedUserId),
+        projectId: id !== null ? Number(id) : Number(projectId),
+      });
+      if (response.data) {
+        toast.success("Tarefa criada com sucesso!");
+      }
+    } catch (error) {
+      toast.error("Erro ao criar tarefa");
+    } finally {
+      setTitle("");
+      setDescription("");
+      setStatus(Status.ToDo);
+      setPriority(Priority.Backlog);
+      setTags("");
+      setStartDate("");
+      setDueDate("");
+      setAuthorUserId("");
+      setAssignedUserId("");
+      setProjectId("");
 
-    setTitle("");
-    setDescription("");
-    setStatus(Status.ToDo);
-    setPriority(Priority.Backlog);
-    setTags("");
-    setStartDate("");
-    setDueDate("");
-    setAuthorUserId("");
-    setAssignedUserId("");
-    setProjectId("");
-
-    onClose();
+      onClose();
+    }
   };
 
   const isFormValid = () => {
-    return title && authorUserId && !(id !== null || projectId);
+    return title && authorUserId && !(id !== null && projectId);
   };
 
   const selectStyles =

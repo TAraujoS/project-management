@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./redux";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,7 +21,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-        <StoreProvider>{children}</StoreProvider>
+        <StoreProvider>
+          {children}
+          <Toaster
+            toastOptions={{
+              style: { background: "#333", color: "#fff", fontSize: "14px" },
+              duration: 3000,
+            }}
+          />
+        </StoreProvider>
       </body>
     </html>
   );

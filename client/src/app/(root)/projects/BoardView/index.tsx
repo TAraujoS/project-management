@@ -30,6 +30,7 @@ import {
 import EmptyTasks from "@/components/EmptyTasks";
 import ModalDelete from "../ModalDelete";
 import PriorityTag from "@/components/PriorityTag";
+import toast from "react-hot-toast";
 
 type BoardProps = {
   id: string;
@@ -206,9 +207,14 @@ const Task = ({ task }: TaskProps) => {
         onClose={() => setIsModalDeleteTaskOpen(false)}
         name="Excluir Task"
         onDelete={() => {
-          console.log("deleting task", task.id);
-          deleteTask({ taskId: Number(task.id) });
-          setIsModalDeleteTaskOpen(false);
+          try {
+            deleteTask({ taskId: Number(task.id) });
+            toast.success("Task excluida com sucesso!");
+          } catch (error) {
+            toast.error("Erro ao excluir task");
+          } finally {
+            setIsModalDeleteTaskOpen(false);
+          }
         }}
         isProject={false}
       />

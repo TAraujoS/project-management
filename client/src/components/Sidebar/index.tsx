@@ -1,10 +1,9 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/app/redux";
-import { useGetAuthUserQuery } from "@/state/api/api";
+import { useGetAuthUserQuery, useSignoutMutation } from "@/state/api/api";
 import { useGetProjectsQuery } from "@/state/api/projectsApi";
 import { setIsSidebarCollapsed } from "@/state/globalSlice";
-import { signOut } from "aws-amplify/auth";
 import {
   AlertCircle,
   AlertOctagon,
@@ -25,23 +24,24 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Sidebar = () => {
+  const router = useRouter();
   const [showProjects, setShowProjects] = useState(true);
   const [showPriority, setShowPriority] = useState(true);
-
+  const { data: currentUser } = useGetAuthUserQuery();
+  const [signout, { isLoading }] = useSignoutMutation();
   const { data: projects } = useGetProjectsQuery();
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed,
   );
-
-  const { data: currentUser } = useGetAuthUserQuery();
   const handleSignOut = async () => {
     try {
-      await signOut();
+      await signout();
+      router.push("/sign-in");
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -180,6 +180,7 @@ const Sidebar = () => {
           <button
             className="self-start rounded bg-blue-400 px-4 py-2 text-xs font-bold text-white hover:bg-blue-500 md:block"
             onClick={handleSignOut}
+            disabled={isLoading}
           >
             Sair
           </button>

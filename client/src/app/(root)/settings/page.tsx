@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import { useGetAuthUserQuery, useUpdateUserMutation } from "@/state/api/api";
 import { PencilIcon } from "lucide-react";
 import Modal from "@/components/Modal";
+import toast from "react-hot-toast";
 
 const Settings = () => {
   const { data: currentUser } = useGetAuthUserQuery();
@@ -37,8 +38,10 @@ const Settings = () => {
           },
         });
       }
+      toast.success("Perfil atualizado com sucesso!");
     } catch (error) {
       console.log(error);
+      toast.error("Erro ao atualizar perfil");
     } finally {
       setIsOpen(false);
     }

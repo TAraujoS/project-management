@@ -16,7 +16,7 @@ body,
   width: 100%;
   @apply text-sm;
   @apply bg-white;
-  @apply text-gray-900
+  @apply text-gray-900;
 }
 
 .timeline ._3_ygE {
@@ -63,26 +63,23 @@ body,
   height: 0px;
 }
 
-
-
-
 @layer utilities {
   .text-12 {
     @apply text-[12px] leading-[16px];
   }
-  
+
   .text-14 {
     @apply text-[14px] leading-[20px];
   }
-  
+
   .text-16 {
     @apply text-[16px] leading-[24px];
   }
-  
+
   .text-24 {
     @apply text-[24px] leading-[30px];
   }
-  
+
   .text-36 {
     @apply text-[28px] leading-[38px];
   }
@@ -93,7 +90,7 @@ body,
 
   /* Auth */
   .auth-asset {
-    @apply flex h-screen w-full sticky top-0 items-center justify-end bg-slate-50 max-lg:hidden;
+    @apply sticky top-0 flex h-screen w-full items-center justify-center bg-sky-800 max-lg:hidden;
   }
 
   /* Auth Form */
@@ -114,11 +111,10 @@ body,
   }
 
   .form-btn {
-    @apply text-16 rounded-lg flex justify-center gap-4 p-1 border border-blue-800 bg-blue-800 font-semibold text-white shadow-sm;
+    @apply text-16 flex justify-center gap-4 rounded-lg border border-blue-800 bg-blue-800 p-1 font-semibold text-white shadow-sm;
   }
 
   .form-link {
     @apply text-14 cursor-pointer font-medium text-blue-800;
   }
-
 }

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useCreateTaskMutation } from "@/state/api/tasksApi";
 import { Priority, Status } from "@/types";
 import { addDays, formatISO } from "date-fns";
 import Modal from "../Modal";
 import toast from "react-hot-toast";
+import { useGetUsersQuery } from "@/state/api/api";
 
 type ModalNewTaskProps = {
   isOpen: boolean;
@@ -12,19 +13,61 @@ type ModalNewTaskProps = {
 };
 const ModalNewTask = ({ isOpen, onClose, id = null }: ModalNewTaskProps) => {
   const [createTask, { isLoading }] = useCreateTaskMutation();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [status, setStatus] = useState<Status>(Status.ToDo);
-  const [priority, setPriority] = useState<Priority>(Priority.Backlog);
-  const [tags, setTags] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [authorUserId, setAuthorUserId] = useState("");
-  const [assignedUserId, setAssignedUserId] = useState("");
-  const [projectId, setProjectId] = useState("");
+  const { data: users } = useGetUsersQuery();
+
+  const [formState, setFormState] = useState({
+    title: "",
+    description: "",
+    status: Status.ToDo,
+    priority: Priority.Backlog,
+    tags: "",
+    startDate: "",
+    dueDate: "",
+    authorUserId: "",
+    assignedUserId: "",
+    projectId: "",
+  });
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleResetForm = () => {
+    setFormState({
+      title: "",
+      description: "",
+      status: Status.ToDo,
+      priority: Priority.Backlog,
+      tags: "",
+      startDate: "",
+      dueDate: "",
+      authorUserId: "",
+      assignedUserId: "",
+      projectId: "",
+    });
+  };
 
   const handleSubmit = async () => {
-    if (!title || !authorUserId || !(id !== null || projectId)) {
+    const {
+      title,
+      description,
+      status,
+      priority,
+      tags,
+      startDate,
+      dueDate,
+      authorUserId,
+      assignedUserId,
+      projectId,
+    } = formState;
+
+    if (!title || !authorUserId || !(id !== null || projectId) || !status) {
       return;
     }
 
@@ -57,23 +100,14 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: ModalNewTaskProps) => {
     } catch (error) {
       toast.error("Erro ao criar tarefa");
     } finally {
-      setTitle("");
-      setDescription("");
-      setStatus(Status.ToDo);
-      setPriority(Priority.Backlog);
-      setTags("");
-      setStartDate("");
-      setDueDate("");
-      setAuthorUserId("");
-      setAssignedUserId("");
-      setProjectId("");
-
+      handleResetForm();
       onClose();
     }
   };
 
   const isFormValid = () => {
-    return title && authorUserId && !(id !== null && projectId);
+    const { title, status, authorUserId, projectId } = formState;
+    return title && authorUserId && !(id !== null && projectId) && status;
   };
 
   const selectStyles =
@@ -83,7 +117,14 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: ModalNewTaskProps) => {
     "w-full rounded border border-gray-300 p-2 shadow-sm dark:border-dark-tertiary dark:bg-dark-tertiary dark:text-white dark:focus:outline-none";
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} name="Criar Nova Tarefa">
+    <Modal
+      isOpen={isOpen}
+      onClose={() => {
+        handleResetForm();
+        onClose();
+      }}
+      name="Criar Nova Tarefa"
+    >
       <form
         className="mt-4 space-y-6"
         onSubmit={(e) => {
@@ -92,25 +133,26 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: ModalNewTaskProps) => {
         }}
       >
         <input
+          name="title"
           type="text"
           className={inputStyles}
           placeholder="Título"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={formState.title}
+          onChange={handleInputChange}
         />
         <textarea
+          name="description"
           className={inputStyles}
           placeholder="Descrição"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={formState.description}
+          onChange={handleInputChange}
         />
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
           <select
+            name="status"
             className={selectStyles}
-            value={status}
-            onChange={(e) =>
-              setStatus(Status[e.target.value as keyof typeof Status])
-            }
+            value={formState.status}
+            onChange={handleInputChange}
           >
             <option value="">Selecione o Status</option>
             <option value={Status.ToDo}>A Fazer</option>
@@ -119,11 +161,10 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: ModalNewTaskProps) => {
             <option value={Status.Completed}>Completo</option>
           </select>
           <select
+            name="priority"
             className={selectStyles}
-            value={priority}
-            onChange={(e) =>
-              setPriority(Priority[e.target.value as keyof typeof Priority])
-            }
+            value={formState.priority}
+            onChange={handleInputChange}
           >
             <option value="">Selecione a Prioridade</option>
             <option value={Priority.Urgent}>Urgente</option>
@@ -134,48 +175,73 @@ const ModalNewTask = ({ isOpen, onClose, id = null }: ModalNewTaskProps) => {
           </select>
         </div>
         <input
+          name="tags"
           type="text"
           className={inputStyles}
           placeholder="Tags (vírgula para separar)"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
+          value={formState.tags}
+          onChange={handleInputChange}
         />
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-2">
           <input
+            name="startDate"
             type="date"
             className={inputStyles}
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
+            value={formState.startDate}
+            onChange={handleInputChange}
           />
           <input
+            name="dueDate"
             type="date"
             className={inputStyles}
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
+            value={formState.dueDate}
+            onChange={handleInputChange}
           />
         </div>
-        <input
-          type="text"
-          className={inputStyles}
-          placeholder="Id do Autor"
-          value={authorUserId}
-          onChange={(e) => setAuthorUserId(e.target.value)}
-        />
-        <input
-          type="text"
-          className={inputStyles}
-          placeholder="Id do Responsável"
-          value={assignedUserId}
-          onChange={(e) => setAssignedUserId(e.target.value)}
-        />
+
+        <select
+          name="authorUserId"
+          id="autor-name"
+          value={formState.authorUserId}
+          onChange={handleInputChange}
+          className={selectStyles}
+        >
+          <option value="" disabled>
+            Nome do Autor
+          </option>
+          {users?.map((user) => (
+            <option key={user.userId} value={user.userId}>
+              {user.username}
+            </option>
+          ))}
+        </select>
+
+        <select
+          name="assignedUserId"
+          id="assigned-name"
+          value={formState.assignedUserId}
+          onChange={handleInputChange}
+          className={selectStyles}
+        >
+          <option value="" disabled>
+            Nome do Responsável
+          </option>
+          {users?.map((user) => (
+            <option key={user.userId} value={user.userId}>
+              {user.username}
+            </option>
+          ))}
+        </select>
+
         {id === null && (
           <input
+            name="projectId"
             type="text"
             className={inputStyles}
             placeholder="ProjectId"
-            value={projectId}
-            onChange={(e) => setProjectId(e.target.value)}
+            value={formState.projectId}
+            onChange={handleInputChange}
           />
         )}
         <button

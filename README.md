@@ -76,7 +76,7 @@ npm run dev
 
 ### 6. Abrir a Aplicação
 
-Com o servidor rodando acesse o link: https://project-management-tascherer.vercel.app/
+Com o servidor rodando acesse o link: https://project-management-tascherer.vercel.app/sign-in
 
 Ou para rodar o client localmente, execute:
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useAppSelector } from "@/app/redux";
 import { useGetProjectsQuery } from "@/state/api/projectsApi";
 import { useGetTasksQuery } from "@/state/api/tasksApi";
@@ -21,6 +21,8 @@ import {
   YAxis,
 } from "recharts";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import { PlusSquare } from "lucide-react";
+import ModalNewProject from "../projects/ModalNewProject";
 
 const taskColumns: GridColDef[] = [
   { field: "title", headerName: "Título", width: 200 },
@@ -41,6 +43,7 @@ const HomePage = () => {
   });
   const { data: projects, isLoading: projectLoading } = useGetProjectsQuery();
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+  const [isModalNewProjectOpen, setIsModalNewProjectOpen] = useState(false);
 
   if (tasksLoading || projectLoading) return <div>Loading...</div>;
   if (taskError || !tasks || !projects)
@@ -90,68 +93,94 @@ const HomePage = () => {
 
   return (
     <div className="container h-full w-[100%] bg-gray-100 bg-transparent p-8">
-      <Header name="Project Management Dashboard" />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="rounded-lg bg-white p-4 shadow dark:bg-dark-secondary">
-          <h3 className="mb-4 text-lg font-semibold dark:text-white">
-            Distribuição de prioridades de tarefas
-          </h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={taskDistribution}>
-              <CartesianGrid
-                strokeDasharray="3 3"
-                stroke={chartColors.barGrid}
+      <Header name="Dashboard - Gerenciamento de Projetos" />
+
+      <ModalNewProject
+        isOpen={isModalNewProjectOpen}
+        onClose={() => setIsModalNewProjectOpen(false)}
+      />
+
+      {projects && projects.length > 0 ? (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="rounded-lg bg-white p-4 shadow dark:bg-dark-secondary">
+            <h3 className="mb-4 text-lg font-semibold dark:text-white">
+              Distribuição de prioridades de tarefas
+            </h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={taskDistribution}>
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke={chartColors.barGrid}
+                />
+                <XAxis dataKey="name" stroke={chartColors.text} />
+                <YAxis stroke={chartColors.text} />
+                <Tooltip
+                  contentStyle={{
+                    width: "min-content",
+                    height: "min-content",
+                  }}
+                />
+                <Legend />
+                <Bar dataKey="count" fill={chartColors.bar} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="rounded-lg bg-white p-4 shadow dark:bg-dark-secondary">
+            <h3 className="mb-4 text-lg font-semibold dark:text-white">
+              Status Projetos
+            </h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie dataKey="count" data={projectStatus} fill="#82ca9d" label>
+                  {projectStatus.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="rounded-lg bg-white p-4 shadow dark:bg-dark-secondary md:col-span-2">
+            <h3 className="mb-4 text-lg font-semibold dark:text-white">
+              Suas Tarefas
+            </h3>
+            <div style={{ height: 400, width: "100%" }}>
+              <DataGrid
+                rows={tasks}
+                columns={taskColumns}
+                checkboxSelection
+                loading={tasksLoading}
+                getRowClassName={() => "data-grid-row"}
+                getCellClassName={() => "data-grid-cell"}
+                className={dataGridClassNames}
+                sx={dataGridSxStyles(isDarkMode)}
               />
-              <XAxis dataKey="name" stroke={chartColors.text} />
-              <YAxis stroke={chartColors.text} />
-              <Tooltip
-                contentStyle={{
-                  width: "min-content",
-                  height: "min-content",
-                }}
-              />
-              <Legend />
-              <Bar dataKey="count" fill={chartColors.bar} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="rounded-lg bg-white p-4 shadow dark:bg-dark-secondary">
-          <h3 className="mb-4 text-lg font-semibold dark:text-white">
-            Status Projetos
-          </h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie dataKey="count" data={projectStatus} fill="#82ca9d" label>
-                {projectStatus.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="rounded-lg bg-white p-4 shadow dark:bg-dark-secondary md:col-span-2">
-          <h3 className="mb-4 text-lg font-semibold dark:text-white">
-            Suas Tarefas
-          </h3>
-          <div style={{ height: 400, width: "100%" }}>
-            <DataGrid
-              rows={tasks}
-              columns={taskColumns}
-              checkboxSelection
-              loading={tasksLoading}
-              getRowClassName={() => "data-grid-row"}
-              getCellClassName={() => "data-grid-cell"}
-              className={dataGridClassNames}
-              sx={dataGridSxStyles(isDarkMode)}
-            />
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="mt-10 flex flex-col items-center justify-center">
+          <h3 className="mb-4 text-lg font-semibold dark:text-white">
+            Você ainda não possui nenhum Projeto criado.
+          </h3>
+          <button
+            className="flex items-center rounded-md bg-blue-primary px-3 py-2 text-white hover:bg-blue-600"
+            onClick={() => setIsModalNewProjectOpen(true)}
+          >
+            <PlusSquare className="mr-2 h-5 w-5" /> Criar Novo Projeto
+          </button>
+
+          <iframe
+            width={500}
+            height={500}
+            src="https://lottie.host/embed/f1a8b120-9ab3-4957-ab3b-f713c3c9916a/pRodU2YQJA.json"
+          />
+        </div>
+      )}
     </div>
   );
 };

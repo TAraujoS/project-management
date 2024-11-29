@@ -15,6 +15,7 @@ import {
   Layers3,
   LockIcon,
   LucideIcon,
+  Plus,
   Search,
   Settings,
   ShieldAlert,
@@ -105,7 +106,7 @@ const Sidebar = () => {
           )}
         </button>
 
-        {showProjects &&
+        {showProjects && projects && projects.length > 0 ? (
           projects?.map((project) => (
             <SidebarLink
               key={project.id}
@@ -113,7 +114,10 @@ const Sidebar = () => {
               label={project.name}
               href={`/projects/${project.id}`}
             />
-          ))}
+          ))
+        ) : (
+          <SidebarLink icon={Plus} label="Criar Novo Projeto" href={`/`} />
+        )}
 
         <button
           onClick={() => setShowPriority((prev) => !prev)}

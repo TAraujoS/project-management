@@ -1,5 +1,7 @@
 # Project Management API
 
+![project-board](https://github.com/user-attachments/assets/2aa96e04-cd1c-4034-8bd2-bb60d4c3d290)
+
 Este é um projeto de **API de Gerenciamento de Projetos** que permite criar, listar e gerenciar tarefas, usuários e projetos. A API fornece endpoints para autenticação de usuários, gerenciamento de tarefas, e acompanhamento de projetos.
 
 ## Funcionalidades
@@ -72,9 +74,17 @@ cd server/
 npm run dev
 ```
 
+E para popular o seu database com alguns dados, execute:
+
+```
+npm run seed
+```
+
 ### 6. Abrir a Aplicação
 
-Para rodar o client localmente, execute:
+Com o servidor rodando acesse o link: https://project-management-tascherer.vercel.app/sign-in
+
+Ou para rodar o client localmente, execute:
 
 ```
 cd client/

@@ -74,6 +74,12 @@ cd server/
 npm run dev
 ```
 
+E para popular o seu database com alguns dados, execute:
+
+```
+npm run seed
+```
+
 ### 6. Abrir a Aplicação
 
 Com o servidor rodando acesse o link: https://project-management-tascherer.vercel.app/sign-in
